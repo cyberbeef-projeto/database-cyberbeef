@@ -15,7 +15,6 @@ razaoSocial varchar(255),
 nomeFantasia varchar(255),
 cnpj char(14),
 cep char(8),
-rua varchar(255),
 numero varchar(10),
 contato int,
 constraint fkContatoEmpresa

@@ -89,7 +89,7 @@ foreign key (idComponente) references componente(idComponente),
 foreign key (idMaquina) references maquina(idMaquina)
 );
 
-create table L=leitura (
+create table leitura (
 idLeitura int primary key auto_increment,
 idComponente int,
 idMaquina int,

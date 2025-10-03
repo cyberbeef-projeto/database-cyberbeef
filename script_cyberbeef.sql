@@ -62,7 +62,7 @@ create table setorMaquina (
 idSetor int,
 tokenEmpresa int,
 idMaquina int,
-status tinyint,
+status varchar(10),
 responsavel varchar(45),
 dataVinculacao datetime,
 constraint fkSetorMaquina
@@ -90,7 +90,7 @@ foreign key (idComponente) references componente(idComponente),
 foreign key (idMaquina) references maquina(idMaquina)
 );
 
-create table Leitura (
+create table L=leitura (
 idLeitura int primary key auto_increment,
 idComponente int,
 idMaquina int,
@@ -101,4 +101,30 @@ constraint fkLeituraComponente
 foreign key (idComponente) references componente(idComponente),
 foreign key (idMaquina) references maquina(idMaquina),
 foreign key (idNucleo) references nucleoCpu(idNucleo)
+);
+
+create table parametro (
+idParametro int primary key auto_increment,
+idComponente int,
+idMaquina int,
+nivel varchar(45),
+min float,
+max float,
+constraint fkParametroComponente
+foreign key (idComponente) references componente(idComponente),
+foreign key (idMaquina) references maquina(idMaquina)
+);
+
+create table alerta (
+idAlerta int primary key auto_increment,
+idLeitura int,
+idComponente int,
+idMaquina int,
+idParametro int,
+descricao varchar(255),
+constraint fkAlertaLeitura
+foreign key (idLeitura) references leitura(idLeitura),
+foreign key (idComponente) references componente(idComponente),
+foreign key (idMaquina) references maquina(idMaquina),
+foreign key (idParametro) references parametro(idParametro)
 );

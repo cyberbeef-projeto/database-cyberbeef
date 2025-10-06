@@ -71,6 +71,17 @@ foreign key (idMaquina) references maquina(idMaquina),
 primary key (idSetor, tokenEmpresa, idMaquina)
 );
 
+create table rede (
+idRede int primary key auto_increment,
+idMaquina int,
+download float,
+upload float,
+packetLoss float,
+dthCaptura datetime,
+constraint fkRedeMaquina
+foreign key (idMaquina) references maquina(idMaquina)
+);
+
 create table componente (
 idComponente int primary key auto_increment,
 idMaquina int,

@@ -230,8 +230,8 @@ JOIN maquina m ON c.idMaquina = m.idMaquina;
 SELECT 
     l.idLeitura,
     m.hostname,
-    c.tipoComponente,
-    l.dado,
+    c.tipoComponente as "Componente",
+    l.dado as "Dados",
     l.dthCaptura
 FROM leitura l
 JOIN componente c ON l.idComponente = c.idComponente
@@ -242,10 +242,12 @@ ORDER BY l.dthCaptura DESC;
 SELECT 
     r.idRede,
     m.hostname,
-    r.download,
-    r.upload,
-    r.packetLoss,
+    c.tipoComponente as "Componente",
+    r.download as "Download (Mbps)",
+    r.upload as "Upload (Mbps)",
+    r.packetLoss as "Packet Loss (%)",
     r.dthCaptura
 FROM rede r
 JOIN maquina m ON r.idMaquina = m.idMaquina
+JOIN componente c ON c.idComponente = r.idComponente
 ORDER BY r.dthCaptura DESC;

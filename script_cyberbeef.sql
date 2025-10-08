@@ -1,134 +1,152 @@
-create database cyberbeef;
-use cyberbeef;
+-- ==========================
+-- BANCO DE DADOS CYBERBEEF -
+-- ==========================
 
-create table contato (
-    idContato int primary key auto_increment,
-    telefone varchar(15),
-    email varchar(255),
-    assunto varchar(45),
-    descricao varchar(255)
+CREATE DATABASE cyberbeef;
+USE cyberbeef;
+
+
+CREATE TABLE contato (
+    idContato INT PRIMARY KEY AUTO_INCREMENT,
+    telefone VARCHAR(15) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    assunto VARCHAR(45) NOT NULL,
+    descricao VARCHAR(255)
 );
 
-create table empresa (
-    tokenEmpresa int primary key,
-    razaoSocial varchar(255),
-    nomeFantasia varchar(255),
-    cnpj char(14),
-    cep char(8),
-    numero varchar(10),
-    contato int,
-    constraint fkContatoEmpresa foreign key (contato) references contato(idContato)
+
+CREATE TABLE empresa (
+    tokenEmpresa INT PRIMARY KEY,
+    razaoSocial VARCHAR(255) NOT NULL,
+    nomeFantasia VARCHAR(255) NOT NULL,
+    cnpj CHAR(14) NOT NULL,
+    cep CHAR(8) NOT NULL,
+    numero VARCHAR(10) NOT NULL,
+    contato INT NOT NULL,
+    CONSTRAINT fkContatoEmpresa FOREIGN KEY (contato) REFERENCES contato(idContato)
 );
 
-create table permissaoUsuario (
-    idPermissaoUsuario int primary key auto_increment,
-    cargo varchar(45),
-    nivelPermissao int
+
+CREATE TABLE permissaoUsuario (
+    idPermissaoUsuario INT PRIMARY KEY AUTO_INCREMENT,
+    cargo VARCHAR(45) NOT NULL,
+    nivelPermissao INT NOT NULL
 );
 
-create table usuario (
-    idUsuario int primary key auto_increment,
-    tokenEmpresa int,
-    permissaoUsuario int,
-    email varchar(255),
-    senha varchar(255),
-    nome varchar(255),
-    constraint fkEmpresaUsuario foreign key (tokenEmpresa) references empresa(tokenEmpresa),
-    constraint fkPermissaoUsuario foreign key (permissaoUsuario) references permissaoUsuario(idPermissaoUsuario)
+
+CREATE TABLE usuario (
+    idUsuario INT PRIMARY KEY AUTO_INCREMENT,
+    tokenEmpresa INT NOT NULL,
+    permissaoUsuario INT NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    senha VARCHAR(255) NOT NULL,
+    nome VARCHAR(255) NOT NULL,
+    CONSTRAINT fkEmpresaUsuario FOREIGN KEY (tokenEmpresa) REFERENCES empresa(tokenEmpresa),
+    CONSTRAINT fkPermissaoUsuario FOREIGN KEY (permissaoUsuario) REFERENCES permissaoUsuario(idPermissaoUsuario)
 );
 
-create table setor (
-    idSetor int primary key auto_increment,
-    tokenEmpresa int,
-    nomeSetor varchar(45),
-    descricao varchar(255),
-    constraint fkSetorEmpresa foreign key (tokenEmpresa) references empresa(tokenEmpresa)
+
+CREATE TABLE setor (
+    idSetor INT PRIMARY KEY AUTO_INCREMENT,
+    tokenEmpresa INT NOT NULL,
+    nomeSetor VARCHAR(45) NOT NULL,
+    descricao VARCHAR(255),
+    CONSTRAINT fkSetorEmpresa FOREIGN KEY (tokenEmpresa) REFERENCES empresa(tokenEmpresa)
 );
 
-create table maquina (
-    idMaquina int primary key auto_increment,
-    macAddress varchar(45),
-    ip varchar(45),
-    hostname varchar(255),
-    sistemaOperacional varchar(45),
-    dthRegistro datetime
+
+CREATE TABLE maquina (
+    idMaquina INT PRIMARY KEY AUTO_INCREMENT,
+    macAddress VARCHAR(45) NOT NULL,
+    ip VARCHAR(45) NOT NULL,
+    hostname VARCHAR(255) NOT NULL,
+    sistemaOperacional VARCHAR(45) NOT NULL,
+    dthRegistro DATETIME NOT NULL
 );
 
-create table setorMaquina (
-    idSetor int,
-    tokenEmpresa int,
-    idMaquina int,
-    status varchar(10),
-    responsavel varchar(45),
-    dataVinculacao datetime,
-    constraint fkSetorMaquina foreign key (idSetor) references setor(idSetor),
-    foreign key (tokenEmpresa) references empresa(tokenEmpresa),
-    foreign key (idMaquina) references maquina(idMaquina),
-    primary key (idSetor, tokenEmpresa, idMaquina)
+
+CREATE TABLE setorMaquina (
+    idSetor INT NOT NULL,
+    tokenEmpresa INT NOT NULL,
+    idMaquina INT NOT NULL,
+    status VARCHAR(10) NOT NULL,
+    responsavel VARCHAR(45),
+    dthVinculacao DATETIME NOT NULL,
+    CONSTRAINT fkSetorMaquina FOREIGN KEY (idSetor) REFERENCES setor(idSetor),
+    FOREIGN KEY (tokenEmpresa) REFERENCES empresa(tokenEmpresa),
+    FOREIGN KEY (idMaquina) REFERENCES maquina(idMaquina),
+    PRIMARY KEY (idSetor, tokenEmpresa, idMaquina)
 );
 
-create table componente (
-    idComponente int primary key auto_increment,
-    idMaquina int,
-    tipoComponente enum('CPU','MEMORIA','DISCO','REDE'),
-    unidadeMedida varchar(45),
-    constraint fkComponenteMaquina foreign key (idMaquina) references maquina(idMaquina)
+
+CREATE TABLE componente (
+    idComponente INT PRIMARY KEY AUTO_INCREMENT,
+    idMaquina INT NOT NULL,
+    tipoComponente ENUM('CPU','MEMORIA','DISCO','REDE') NOT NULL,
+    unidadeMedida VARCHAR(45) NOT NULL,
+    CONSTRAINT fkComponenteMaquina FOREIGN KEY (idMaquina) REFERENCES maquina(idMaquina),
+    UNIQUE (idMaquina, tipoComponente)
 );
 
-create table nucleoCpu (
-    idNucleo int primary key auto_increment,
-    idComponente int,
-    idMaquina int,
-    constraint fkNucleoComponente foreign key (idComponente) references componente(idComponente),
-    foreign key (idMaquina) references maquina(idMaquina)
+
+CREATE TABLE nucleoCpu (
+    idNucleo INT PRIMARY KEY AUTO_INCREMENT,
+    idComponente INT NOT NULL,
+    idMaquina INT NOT NULL,
+    CONSTRAINT fkNucleoComponente FOREIGN KEY (idComponente) REFERENCES componente(idComponente),
+    FOREIGN KEY (idMaquina) REFERENCES maquina(idMaquina)
 );
 
-create table leitura (
-    idLeitura int primary key auto_increment,
-    idComponente int,
-    idMaquina int,
-    dado float,
-    dthCaptura datetime,
-    idNucleo int,
-    constraint fkLeituraComponente foreign key (idComponente) references componente(idComponente),
-    foreign key (idMaquina) references maquina(idMaquina),
-    foreign key (idNucleo) references nucleoCpu(idNucleo)
+
+CREATE TABLE leitura (
+    idLeitura INT PRIMARY KEY AUTO_INCREMENT,
+    idComponente INT NOT NULL,
+    idMaquina INT NOT NULL,
+    dado FLOAT NOT NULL,
+    dthCaptura DATETIME NOT NULL,
+    idNucleo INT,
+    CONSTRAINT fkLeituraComponente FOREIGN KEY (idComponente) REFERENCES componente(idComponente),
+    FOREIGN KEY (idMaquina) REFERENCES maquina(idMaquina),
+    FOREIGN KEY (idNucleo) REFERENCES nucleoCpu(idNucleo)
 );
 
-create table rede (
-    idRede int primary key auto_increment,
-    idMaquina int,
-    idComponente int,
-    download float,
-    upload float,
-    packetLoss float,
-    dthCaptura datetime,
-    constraint fkRedeMaquina foreign key (idMaquina) references maquina(idMaquina),
-    constraint fkRedeComponente foreign key (idComponente) references componente(idComponente)
+
+CREATE TABLE rede (
+    idRede INT PRIMARY KEY AUTO_INCREMENT,
+    idMaquina INT NOT NULL,
+    idComponente INT NOT NULL,
+    download FLOAT NOT NULL,
+    upload FLOAT NOT NULL,
+    packetLoss FLOAT NOT NULL,
+    dthCaptura DATETIME NOT NULL,
+    CONSTRAINT fkRedeMaquina FOREIGN KEY (idMaquina) REFERENCES maquina(idMaquina),
+    CONSTRAINT fkRedeComponente FOREIGN KEY (idComponente) REFERENCES componente(idComponente)
 );
 
-create table parametro (
-    idParametro int primary key auto_increment,
-    idComponente int,
-    idMaquina int,
-    nivel varchar(45),
-    min float,
-    max float,
-    constraint fkParametroComponente foreign key (idComponente) references componente(idComponente),
-    foreign key (idMaquina) references maquina(idMaquina)
+
+CREATE TABLE parametro (
+    idParametro INT PRIMARY KEY AUTO_INCREMENT,
+    idComponente INT NOT NULL,
+    idMaquina INT NOT NULL,
+    nivel VARCHAR(45) NOT NULL,
+    min FLOAT NOT NULL,
+    max FLOAT NOT NULL,
+    CONSTRAINT fkParametroComponente FOREIGN KEY (idComponente) REFERENCES componente(idComponente),
+    FOREIGN KEY (idMaquina) REFERENCES maquina(idMaquina)
 );
 
-create table alerta (
-    idAlerta int primary key auto_increment,
-    idLeitura int,
-    idComponente int,
-    idMaquina int,
-    idParametro int,
-    descricao varchar(255),
-    constraint fkAlertaLeitura foreign key (idLeitura) references leitura(idLeitura),
-    foreign key (idComponente) references componente(idComponente),
-    foreign key (idMaquina) references maquina(idMaquina),
-    foreign key (idParametro) references parametro(idParametro)
+
+CREATE TABLE alerta (
+    idAlerta INT PRIMARY KEY AUTO_INCREMENT,
+    idLeitura INT NOT NULL,
+    idComponente INT NOT NULL,
+    idMaquina INT NOT NULL,
+    idParametro INT NOT NULL,
+    descricao VARCHAR(255) NOT NULL,
+    CONSTRAINT fkAlertaLeitura FOREIGN KEY (idLeitura) REFERENCES leitura(idLeitura),
+    FOREIGN KEY (idComponente) REFERENCES componente(idComponente),
+    FOREIGN KEY (idMaquina) REFERENCES maquina(idMaquina),
+    FOREIGN KEY (idParametro) REFERENCES parametro(idParametro)
 );
 
 
@@ -136,7 +154,7 @@ INSERT INTO contato (telefone, email, assunto, descricao) VALUES
 ('11999999999', 'contato@cyberbeef.com', 'Suporte', 'Contato principal da empresa');
 
 INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, cep, numero, contato) VALUES
- (1001, 'CyberBeef Ltda', 'CyberBeef', '12345678000199', '04567000', '123', 1);
+(1001, 'CyberBeef Ltda', 'CyberBeef', '12345678000199', '04567000', '123', 1);
 
 INSERT INTO permissaoUsuario (cargo, nivelPermissao) VALUES 
 ('Administrador', 2),
@@ -150,9 +168,9 @@ INSERT INTO setor (tokenEmpresa, nomeSetor, descricao) VALUES
 (1001, 'Produção de Alimentos', 'Esteira de produção alimentício');
 
 INSERT INTO maquina (macAddress, ip, hostname, sistemaOperacional, dthRegistro) VALUES 
-('00:11:22:33:44:55', '192.168.0.10', 'Servidor SCADA', 'Ubuntu', now());
+('00:11:22:33:44:55', '192.168.0.10', 'Servidor SCADA', 'Ubuntu', NOW());
 
-INSERT INTO setorMaquina (idSetor, tokenEmpresa, idMaquina, status, responsavel, dataVinculacao) VALUES 
+INSERT INTO setorMaquina (idSetor, tokenEmpresa, idMaquina, status, responsavel, dthVinculacao) VALUES 
 (1, 1001, 1, 'Ativa', 'Rafael', NOW());
 
 INSERT INTO componente (idMaquina, tipoComponente, unidadeMedida) VALUES 
@@ -162,8 +180,16 @@ INSERT INTO componente (idMaquina, tipoComponente, unidadeMedida) VALUES
 (1, 'CPU', '%');
 
 
-select r.idRede, m.idMaquina, r.download, r.upload, r.packetLoss, r.dthCaptura from rede r join maquina m on m.idMaquina = r.idMaquina order by r.dthCaptura desc;
+-- Dados de Rede
+SELECT r.idRede, m.idMaquina, c.tipoComponente,
+ r.download, r.upload, r.packetLoss, 
+ r.dthCaptura
+FROM rede r 
+JOIN maquina m ON m.idMaquina = r.idMaquina 
+JOIN componente c ON c.idComponente = r.idComponente 
+ORDER BY r.dthCaptura DESC;
 
+-- Usuários e permissões
 SELECT 
     u.idUsuario,
     u.nome AS nomeUsuario,
@@ -175,7 +201,7 @@ FROM usuario u
 JOIN permissaoUsuario p ON u.permissaoUsuario = p.idPermissaoUsuario
 JOIN empresa e ON u.tokenEmpresa = e.tokenEmpresa;
 
-
+-- Setores e máquinas
 SELECT 
     s.idSetor,
     s.nomeSetor,
@@ -190,6 +216,7 @@ JOIN setorMaquina sm ON s.idSetor = sm.idSetor
 JOIN maquina m ON sm.idMaquina = m.idMaquina
 WHERE sm.tokenEmpresa = s.tokenEmpresa;
 
+-- Componentes
 SELECT 
     c.idComponente,
     m.idMaquina,
@@ -222,48 +249,3 @@ SELECT
 FROM rede r
 JOIN maquina m ON r.idMaquina = m.idMaquina
 ORDER BY r.dthCaptura DESC;
-
-
-
-select * from leitura join componente;
-
-SELECT
-    r.idRede,
-    c.tipoComponente AS tipoComponenteRede,
-    r.download,
-    r.upload,
-    r.packetLoss,
-    c.unidadeMedida AS unidadeRede,
-    r.dthCaptura AS dataRede,
-    c.idComponente AS idComponenteRede,
-    l.idLeitura,
-    l.idComponente AS idComponenteLeitura,
-    lc.tipoComponente AS tipoComponenteLeitura,
-    lc.unidadeMedida AS unidadeLeitura,
-    l.dado AS valorLeitura,
-    l.dthCaptura AS dataLeitura
-FROM rede r
-JOIN componente c 
-    ON r.idComponente = c.idComponente
-LEFT JOIN leitura l
-    ON l.idMaquina = r.idMaquina
-LEFT JOIN componente lc
-    ON lc.idComponente = l.idComponente
-ORDER BY r.dthCaptura DESC, l.dthCaptura DESC;
-
-
-
-
-SELECT 
-    e.tokenEmpresa,
-    e.nomeFantasia,
-    e.razaoSocial,
-    e.cnpj,
-    e.cep,
-    e.numero,
-    c.telefone,
-    c.email,
-    c.assunto
-FROM empresa e
-JOIN contato c ON e.contato = c.idContato;
-

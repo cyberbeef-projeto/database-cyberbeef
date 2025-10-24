@@ -21,9 +21,7 @@ CREATE TABLE empresa (
     nomeFantasia VARCHAR(255) NOT NULL,
     cnpj CHAR(14) NOT NULL,
     cep CHAR(8) NOT NULL,
-    numero VARCHAR(10) NOT NULL,
-    contato INT NOT NULL,
-    CONSTRAINT fkContatoEmpresa FOREIGN KEY (contato) REFERENCES contato(idContato)
+    numero VARCHAR(10) NOT NULL
 );
 
 
@@ -89,25 +87,14 @@ CREATE TABLE componente (
 );
 
 
-CREATE TABLE nucleoCpu (
-    idNucleo INT PRIMARY KEY AUTO_INCREMENT,
-    idComponente INT NOT NULL,
-    idMaquina INT NOT NULL,
-    CONSTRAINT fkNucleoComponente FOREIGN KEY (idComponente) REFERENCES componente(idComponente),
-    FOREIGN KEY (idMaquina) REFERENCES maquina(idMaquina)
-);
-
-
 CREATE TABLE leitura (
     idLeitura INT PRIMARY KEY AUTO_INCREMENT,
     idComponente INT NOT NULL,
     idMaquina INT NOT NULL,
     dado FLOAT NOT NULL,
     dthCaptura DATETIME NOT NULL,
-    idNucleo INT,
     CONSTRAINT fkLeituraComponente FOREIGN KEY (idComponente) REFERENCES componente(idComponente),
-    FOREIGN KEY (idMaquina) REFERENCES maquina(idMaquina),
-    FOREIGN KEY (idNucleo) REFERENCES nucleoCpu(idNucleo)
+    FOREIGN KEY (idMaquina) REFERENCES maquina(idMaquina)
 );
 
 
@@ -153,8 +140,8 @@ CREATE TABLE alerta (
 INSERT INTO contato (telefone, email, assunto, descricao) VALUES 
 ('11999999999', 'contato@cyberbeef.com', 'Suporte', 'Contato principal da empresa');
 
-INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, cep, numero, contato) VALUES
-(1001, 'CyberBeef Ltda', 'CyberBeef', '12345678000199', '04567000', '123', 1);
+INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, cep, numero) VALUES
+(1001, 'CyberBeef Ltda', 'CyberBeef', '12345678000199', '04567000', '123');
 
 INSERT INTO permissaoUsuario (cargo, nivelPermissao) VALUES 
 ('Administrador', 2),
@@ -181,13 +168,19 @@ INSERT INTO componente (idMaquina, tipoComponente, unidadeMedida) VALUES
 
 
 -- Dados de Rede
-SELECT r.idRede, m.idMaquina, c.tipoComponente,
- r.download, r.upload, r.packetLoss, 
- r.dthCaptura
+SELECT 
+    r.idRede, 
+    m.idMaquina, 
+    c.tipoComponente,
+    r.download, 
+    r.upload, 
+    r.packetLoss, 
+    r.dthCaptura
 FROM rede r 
 JOIN maquina m ON m.idMaquina = r.idMaquina 
 JOIN componente c ON c.idComponente = r.idComponente 
 ORDER BY r.dthCaptura DESC;
+
 
 -- Usuários e permissões
 SELECT 
@@ -210,7 +203,7 @@ SELECT
     m.hostname,
     sm.status,
     sm.responsavel,
-    sm.dataVinculacao
+    sm.dthVinculacao
 FROM setor s
 JOIN setorMaquina sm ON s.idSetor = sm.idSetor
 JOIN maquina m ON sm.idMaquina = m.idMaquina
@@ -230,8 +223,8 @@ JOIN maquina m ON c.idMaquina = m.idMaquina;
 SELECT 
     l.idLeitura,
     m.hostname,
-    c.tipoComponente as "Componente",
-    l.dado as "Dados",
+    c.tipoComponente AS "Componente",
+    l.dado AS "Dados",
     l.dthCaptura
 FROM leitura l
 JOIN componente c ON l.idComponente = c.idComponente
@@ -242,12 +235,13 @@ ORDER BY l.dthCaptura DESC;
 SELECT 
     r.idRede,
     m.hostname,
-    c.tipoComponente as "Componente",
-    r.download as "Download (Mbps)",
-    r.upload as "Upload (Mbps)",
-    r.packetLoss as "Packet Loss (%)",
+    c.tipoComponente AS "Componente",
+    r.download AS "Download (Mbps)",
+    r.upload AS "Upload (Mbps)",
+    r.packetLoss AS "Packet Loss (%)",
     r.dthCaptura
 FROM rede r
 JOIN maquina m ON r.idMaquina = m.idMaquina
 JOIN componente c ON c.idComponente = r.idComponente
 ORDER BY r.dthCaptura DESC;
+

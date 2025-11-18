@@ -43,6 +43,18 @@ CREATE TABLE usuario (
     CONSTRAINT fkPermissaoUsuario FOREIGN KEY (permissaoUsuario) REFERENCES permissaoUsuario(idPermissaoUsuario)
 );
 
+CREATE TABLE loginHistorico (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    fkUsuario INT NULL,
+    email VARCHAR(255),
+    dataHora DATETIME DEFAULT CURRENT_TIMESTAMP,
+    sucesso BOOLEAN,
+    FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario)
+);
+
+select * from loginHistorico;
+SELECT idUsuario, email, senha, tokenEmpresa, permissaoUsuario
+FROM usuario;
 
 CREATE TABLE setor (
     idSetor INT PRIMARY KEY AUTO_INCREMENT,
@@ -136,6 +148,14 @@ CREATE TABLE alerta (
     FOREIGN KEY (idParametro) REFERENCES parametro(idParametro)
 );
 
+CREATE TABLE IF NOT EXISTS log (
+    idLog INT AUTO_INCREMENT PRIMARY KEY,
+    id_maquina INT NOT NULL,
+    tipo ENUM("WARNING", "ERROR", "INFO") NOT NULL,              -- WARNING, ERROR, INFO
+    mensagem TEXT NOT NULL,
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_maquina) REFERENCES maquina(idMaquina)
+);
 
 INSERT INTO contato (telefone, email, assunto, descricao) VALUES 
 ('11999999999', 'contato@cyberbeef.com', 'Suporte', 'Contato principal da empresa');
@@ -149,6 +169,7 @@ INSERT INTO permissaoUsuario (cargo, nivelPermissao) VALUES
 
 INSERT INTO usuario (tokenEmpresa, permissaoUsuario, email, senha, nome) VALUES 
 (1001, 1, 'admin@cyberbeef.com', 'admin123', 'Admin Rafael'),
+(1001, 2, 'cyber@cyber.com', '1212', 'Cyberbeef'),
 (1001, 2, 'analista@cyberbeef.com', 'tech123', 'Analista Pedro');
 
 INSERT INTO setor (tokenEmpresa, nomeSetor, descricao) VALUES 
@@ -180,7 +201,6 @@ FROM rede r
 JOIN maquina m ON m.idMaquina = r.idMaquina 
 JOIN componente c ON c.idComponente = r.idComponente 
 ORDER BY r.dthCaptura DESC;
-
 
 -- Usuários e permissões
 SELECT 
@@ -244,4 +264,3 @@ FROM rede r
 JOIN maquina m ON r.idMaquina = m.idMaquina
 JOIN componente c ON c.idComponente = r.idComponente
 ORDER BY r.dthCaptura DESC;
-

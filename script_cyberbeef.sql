@@ -5,8 +5,7 @@
 CREATE DATABASE cyberbeef;
 USE cyberbeef;
 
-
-CREATE TABLE contato 
+CREATE TABLE contato (
     idContato INT PRIMARY KEY AUTO_INCREMENT,
     telefone VARCHAR(15) NOT NULL,
     email VARCHAR(255) NOT NULL,
@@ -23,6 +22,30 @@ CREATE TABLE empresa (
     cep CHAR(8) NOT NULL,
     numero VARCHAR(10) NOT NULL
 );
+
+ALTER TABLE empresa
+DROP COLUMN cep,
+DROP COLUMN numero;
+
+ALTER TABLE empresa
+ADD COLUMN dataCadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+SELECT * FROM empresa;
+
+CREATE TABLE endereco (
+    idEndereco INT PRIMARY KEY AUTO_INCREMENT,
+    tokenEmpresa INT NOT NULL UNIQUE,  -- relação 1:1 com empresa
+    logradouro VARCHAR(255) NOT NULL,
+    numero VARCHAR(10),
+    bairro VARCHAR(100),
+    cidade VARCHAR(100),
+    estado CHAR(2),
+    cep CHAR(8),
+    CONSTRAINT fk_endereco_empresa FOREIGN KEY (tokenEmpresa) REFERENCES empresa(tokenEmpresa)
+);
+
+
+SELECT * FROM endereco;
 
 
 

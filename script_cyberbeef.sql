@@ -6,7 +6,7 @@ CREATE DATABASE cyberbeef;
 USE cyberbeef;
 
 
-CREATE TABLE contato (
+CREATE TABLE contato 
     idContato INT PRIMARY KEY AUTO_INCREMENT,
     telefone VARCHAR(15) NOT NULL,
     email VARCHAR(255) NOT NULL,
@@ -23,6 +23,7 @@ CREATE TABLE empresa (
     cep CHAR(8) NOT NULL,
     numero VARCHAR(10) NOT NULL
 );
+
 
 
 CREATE TABLE permissaoUsuario (

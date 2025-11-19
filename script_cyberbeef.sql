@@ -288,3 +288,199 @@ FROM rede r
 JOIN maquina m ON r.idMaquina = m.idMaquina
 JOIN componente c ON c.idComponente = r.idComponente
 ORDER BY r.dthCaptura DESC;
+
+DELIMITER $$
+
+CREATE PROCEDURE descKpiTodas(IN token INT)
+BEGIN
+	SELECT m.hostname as Máquina
+		FROM setor s
+		JOIN setorMaquina sm ON s.idSetor = sm.idSetor
+		JOIN maquina m ON sm.idMaquina = m.idMaquina
+		WHERE sm.tokenEmpresa = s.tokenEmpresa AND sm.tokenEmpresa = token;
+
+	SELECT m.hostname as Máquina, c.tipoComponente as Componete, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora FROM alerta a 
+		JOIN leitura l ON l.idLeitura = a.idLeitura
+		JOIN componente c ON c.idComponente = a.idComponente
+		JOIN maquina m ON m.idmaquina = a.idmaquina
+		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+		WHERE l.dthCaptura >= NOW() - INTERVAL 7 DAY 
+		AND sm.tokenEmpresa = token
+		ORDER BY l.dthCaptura DESC;
+        
+    SELECT m.hostname as Máquina, c.tipoComponente as Componete, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora FROM alerta a 
+		JOIN leitura l ON l.idLeitura = a.idLeitura
+		JOIN componente c ON c.idComponente = a.idComponente
+		JOIN maquina m ON m.idmaquina = a.idmaquina
+		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+		AND sm.tokenEmpresa = token
+		ORDER BY l.dthCaptura DESC
+		LIMIT 1;
+        
+	SELECT m.hostname as Máquina, c.tipoComponente as Componete, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora FROM alerta a 
+		JOIN leitura l ON l.idLeitura = a.idLeitura
+		JOIN componente c ON c.idComponente = a.idComponente
+		JOIN maquina m ON m.idmaquina = a.idmaquina
+		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+		WHERE l.dthCaptura >= NOW() - INTERVAL 7 DAY 
+		AND sm.tokenEmpresa = token AND m.hostname = (
+		SELECT m.hostname
+			FROM alerta a 
+			JOIN maquina m ON m.idmaquina = a.idmaquina
+			JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+			WHERE sm.tokenEmpresa = token
+			GROUP BY m.hostname
+			ORDER BY COUNT(*) DESC
+			LIMIT 1)
+		ORDER BY l.dthCaptura DESC;
+    
+END $$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE descKpiGeral(IN token INT, IN maquina VARCHAR(100))
+BEGIN
+	SELECT DISTINCT s.nomeSetor as Setor
+		FROM setor s
+		JOIN setorMaquina sm ON s.idSetor = sm.idSetor
+		JOIN maquina m ON sm.idMaquina = m.idMaquina
+		WHERE sm.tokenEmpresa = token AND m.hostname = maquina;
+
+	SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+		FROM alerta a 
+		JOIN leitura l ON l.idLeitura = a.idLeitura
+		JOIN componente c ON c.idComponente = a.idComponente
+		JOIN maquina m ON m.idmaquina = a.idmaquina
+		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+		WHERE l.dthCaptura >= NOW() - INTERVAL 7 DAY 
+		AND sm.tokenEmpresa = token AND m.hostname = maquina
+		ORDER BY l.dthCaptura DESC;
+		
+	SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+		FROM alerta a 
+		JOIN leitura l ON l.idLeitura = a.idLeitura
+		JOIN componente c ON c.idComponente = a.idComponente
+		JOIN maquina m ON m.idmaquina = a.idmaquina
+		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+		AND sm.tokenEmpresa = token AND m.hostname = maquina
+		ORDER BY l.dthCaptura DESC
+		LIMIT 1;
+		
+	SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+		FROM alerta a 
+		JOIN leitura l ON l.idLeitura = a.idLeitura
+		JOIN componente c ON c.idComponente = a.idComponente
+		JOIN maquina m ON m.idmaquina = a.idmaquina
+		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+		WHERE l.dthCaptura >= NOW() - INTERVAL 7 DAY 
+		AND sm.tokenEmpresa = token AND m.hostname = maquina AND c.tipoComponente = 
+		(SELECT c.tipoComponente
+			FROM alerta a 
+			JOIN maquina m ON m.idmaquina = a.idmaquina
+			JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+			JOIN componente c ON c.idComponente = a.idComponente
+			WHERE sm.tokenEmpresa = token AND m.hostname = maquina
+			GROUP BY c.tipoComponente
+			ORDER BY COUNT(*) DESC
+			LIMIT 1)    
+		ORDER BY l.dthCaptura DESC;
+
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE descKpiCRD(IN token INT, IN maquina VARCHAR(100), IN componente VARCHAR(100))
+BEGIN
+	SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+		FROM leitura l 
+		JOIN maquina m ON l.idMaquina = m.idMaquina
+		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+		JOIN componente c ON l.idComponente = c.idComponente
+		WHERE sm.tokenEmpresa = token AND m.hostname = maquina AND c.tipoComponente = componente
+		ORDER BY l.dthCaptura DESC
+		LIMIT 1;
+		
+	SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+		FROM alerta a
+		JOIN leitura l ON l.idLeitura = a.idLeitura
+		JOIN maquina m ON m.idmaquina = a.idmaquina
+		JOIN componente c ON l.idComponente = c.idComponente
+		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+		WHERE l.dthCaptura >= NOW() - INTERVAL 7 DAY 
+		AND sm.tokenEmpresa = token AND m.hostname = maquina AND c.tipoComponente = componente
+		ORDER BY l.dthCaptura DESC;
+		
+	SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+		FROM alerta a
+		JOIN leitura l ON l.idLeitura = a.idLeitura
+		JOIN maquina m ON m.idmaquina = a.idmaquina
+		JOIN componente c ON l.idComponente = c.idComponente
+		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+		WHERE sm.tokenEmpresa = token AND m.hostname = maquina AND c.tipoComponente = componente
+		ORDER BY l.dthCaptura DESC
+		LIMIT 1;
+		
+	SELECT m.hostname as Máquina, c.tipoComponente as Componente, ROUND(STDDEV_SAMP(l.dado),0) as DesvioPadrão, ROUND(AVG(l.dado),0) as Média
+		FROM leitura l 
+		JOIN maquina m ON l.idMaquina = m.idMaquina
+		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+		JOIN componente c ON l.idComponente = c.idComponente
+		WHERE sm.tokenEmpresa = token AND m.hostname = maquina AND c.tipoComponente = componente
+		GROUP BY m.hostname, c.tipoComponente
+		LIMIT 1;
+END $$
+
+DELIMITER ;
+
+
+
+DELIMITER $$
+
+CREATE PROCEDURE descKpiRede(IN token INT, IN maquina VARCHAR(100), IN componente VARCHAR(100))
+BEGIN
+
+SELECT m.hostname as Máquina, "REDE" as Componente, r.upload as Upload, DATE_FORMAT(r.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+	FROM rede r
+    JOIN maquina m ON r.idMaquina = m.idMaquina
+    JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+    AND sm.tokenEmpresa  = token AND m.hostname = maquina
+    ORDER BY r.dthCaptura DESC
+    LIMIT 1;
+
+SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+	FROM alerta a
+	JOIN leitura l ON l.idLeitura = a.idLeitura
+	JOIN maquina m ON m.idmaquina = a.idmaquina
+	JOIN componente c ON l.idComponente = c.idComponente
+	JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+	WHERE l.dthCaptura >= NOW() - INTERVAL 7 DAY 
+	AND sm.tokenEmpresa = token AND m.hostname = maquina AND c.tipoComponente = componente
+	ORDER BY l.dthCaptura DESC;
+    
+SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+	FROM alerta a
+	JOIN leitura l ON l.idLeitura = a.idLeitura
+	JOIN maquina m ON m.idmaquina = a.idmaquina
+	JOIN componente c ON l.idComponente = c.idComponente
+	JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+	WHERE sm.tokenEmpresa = token AND m.hostname = maquina AND c.tipoComponente = componente
+	ORDER BY l.dthCaptura DESC
+	LIMIT 1;
+    
+SELECT "REDE" as Componente, r.upload as Upload, r.download as Download, DATE_FORMAT(r.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+	FROM rede r
+    JOIN maquina m ON r.idMaquina = m.idMaquina
+    JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+    AND sm.tokenEmpresa = token AND m.hostname = maquina
+    WHERE r.dthCaptura >= NOW() - INTERVAL 7 DAY 
+    ORDER BY r.dthCaptura DESC
+    LIMIT 1;
+END $$
+
+DELIMITER ;
+    

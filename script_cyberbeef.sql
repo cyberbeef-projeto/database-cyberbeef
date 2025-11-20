@@ -184,8 +184,8 @@ CREATE TABLE IF NOT EXISTS log (
 INSERT INTO contato (telefone, email, assunto, descricao) VALUES 
 ('11999999999', 'contato@cyberbeef.com', 'Suporte', 'Contato principal da empresa');
 
-INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, cep, numero) VALUES
-(1001, 'CyberBeef Ltda', 'CyberBeef', '12345678000199', '04567000', '123');
+INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj) VALUES
+(1001, 'CyberBeef Ltda', 'CyberBeef', '12345678000199');
 
 INSERT INTO permissaoUsuario (cargo, nivelPermissao) VALUES 
 ('Administrador', 2),
@@ -290,7 +290,6 @@ JOIN componente c ON c.idComponente = r.idComponente
 ORDER BY r.dthCaptura DESC;
 
 DELIMITER $$
-
 CREATE PROCEDURE descKpiTodas(IN token INT)
 BEGIN
 	SELECT m.hostname as Máquina
@@ -340,7 +339,6 @@ DELIMITER ;
 
 
 DELIMITER $$
-
 CREATE PROCEDURE descKpiGeral(IN token INT, IN maquina VARCHAR(100))
 BEGIN
 	SELECT DISTINCT s.nomeSetor as Setor
@@ -393,7 +391,6 @@ END $$
 DELIMITER ;
 
 DELIMITER $$
-
 CREATE PROCEDURE descKpiCRD(IN token INT, IN maquina VARCHAR(100), IN componente VARCHAR(100))
 BEGIN
 	SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
@@ -440,47 +437,147 @@ DELIMITER ;
 
 
 DELIMITER $$
-
 CREATE PROCEDURE descKpiRede(IN token INT, IN maquina VARCHAR(100), IN componente VARCHAR(100))
 BEGIN
+	SELECT m.hostname as Máquina, "REDE" as Componente, r.upload as Upload, DATE_FORMAT(r.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+		FROM rede r
+		JOIN maquina m ON r.idMaquina = m.idMaquina
+		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+		AND sm.tokenEmpresa  = token AND m.hostname = maquina
+		ORDER BY r.dthCaptura DESC
+		LIMIT 1;
 
-SELECT m.hostname as Máquina, "REDE" as Componente, r.upload as Upload, DATE_FORMAT(r.dthCaptura, '%d/%m/%y %H:%i') as DataHora
-	FROM rede r
-    JOIN maquina m ON r.idMaquina = m.idMaquina
-    JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
-    AND sm.tokenEmpresa  = token AND m.hostname = maquina
-    ORDER BY r.dthCaptura DESC
-    LIMIT 1;
-
-SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
-	FROM alerta a
-	JOIN leitura l ON l.idLeitura = a.idLeitura
-	JOIN maquina m ON m.idmaquina = a.idmaquina
-	JOIN componente c ON l.idComponente = c.idComponente
-	JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
-	WHERE l.dthCaptura >= NOW() - INTERVAL 7 DAY 
-	AND sm.tokenEmpresa = token AND m.hostname = maquina AND c.tipoComponente = componente
-	ORDER BY l.dthCaptura DESC;
-    
-SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
-	FROM alerta a
-	JOIN leitura l ON l.idLeitura = a.idLeitura
-	JOIN maquina m ON m.idmaquina = a.idmaquina
-	JOIN componente c ON l.idComponente = c.idComponente
-	JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
-	WHERE sm.tokenEmpresa = token AND m.hostname = maquina AND c.tipoComponente = componente
-	ORDER BY l.dthCaptura DESC
-	LIMIT 1;
-    
-SELECT "REDE" as Componente, r.upload as Upload, r.download as Download, DATE_FORMAT(r.dthCaptura, '%d/%m/%y %H:%i') as DataHora
-	FROM rede r
-    JOIN maquina m ON r.idMaquina = m.idMaquina
-    JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
-    AND sm.tokenEmpresa = token AND m.hostname = maquina
-    WHERE r.dthCaptura >= NOW() - INTERVAL 7 DAY 
-    ORDER BY r.dthCaptura DESC
-    LIMIT 1;
-END $$
+	SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+		FROM alerta a
+		JOIN leitura l ON l.idLeitura = a.idLeitura
+		JOIN maquina m ON m.idmaquina = a.idmaquina
+		JOIN componente c ON l.idComponente = c.idComponente
+		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+		WHERE l.dthCaptura >= NOW() - INTERVAL 7 DAY 
+		AND sm.tokenEmpresa = token AND m.hostname = maquina AND c.tipoComponente = componente
+		ORDER BY l.dthCaptura DESC;
+		
+	SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+		FROM alerta a
+		JOIN leitura l ON l.idLeitura = a.idLeitura
+		JOIN maquina m ON m.idmaquina = a.idmaquina
+		JOIN componente c ON l.idComponente = c.idComponente
+		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+		WHERE sm.tokenEmpresa = token AND m.hostname = maquina AND c.tipoComponente = componente
+		ORDER BY l.dthCaptura DESC
+		LIMIT 1;
+		
+	SELECT "REDE" as Componente, r.upload as Upload, r.download as Download, DATE_FORMAT(r.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+		FROM rede r
+		JOIN maquina m ON r.idMaquina = m.idMaquina
+		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+		WHERE r.dthCaptura >= NOW() - INTERVAL 7 DAY 
+        AND sm.tokenEmpresa = token AND m.hostname = maquina
+		ORDER BY r.dthCaptura DESC
+		LIMIT 1;
+	END $$
 
 DELIMITER ;
-    
+
+DELIMITER $$
+CREATE PROCEDURE graficosTodas(IN token INT)
+BEGIN
+	SELECT COUNT(*) as numAlertas, DATE_FORMAT(l.dthCaptura, '%d/%m') as Dia 
+		FROM alerta a
+		JOIN leitura l ON l.idLeitura = a.idLeitura
+		JOIN maquina m ON m.idmaquina = a.idmaquina
+		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+		WHERE l.dthCaptura >= NOW() - INTERVAL 7 DAY 
+		AND sm.tokenEmpresa = token 
+		GROUP BY Dia
+		ORDER BY Dia ASC;
+		
+	SELECT COUNT(*) as numAlertas, m.hostname as Maquina
+		FROM alerta a
+		JOIN leitura l ON l.idLeitura = a.idLeitura
+		JOIN maquina m ON m.idmaquina = a.idmaquina
+		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+		WHERE l.dthCaptura >= NOW() - INTERVAL 7 DAY 
+		AND sm.tokenEmpresa = token
+		GROUP BY Maquina
+        ORDER BY numAlertas DESC
+        LIMIT 3;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE graficosGeral(IN token INT, IN maquina VARCHAR(100))
+BEGIN
+	SELECT COUNT(*) as numAlertas, DATE_FORMAT(l.dthCaptura, '%d/%m') as Dia 
+		FROM alerta a
+		JOIN leitura l ON l.idLeitura = a.idLeitura
+		JOIN maquina m ON m.idmaquina = a.idmaquina
+		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+		WHERE l.dthCaptura >= NOW() - INTERVAL 7 DAY 
+		AND sm.tokenEmpresa = token AND m.hostname = maquina
+		GROUP BY Dia
+		ORDER BY Dia ASC;
+		
+	SELECT COUNT(*) as numAlertas, c.tipoComponente as Componente
+		FROM alerta a
+		JOIN leitura l ON l.idLeitura = a.idLeitura
+		JOIN maquina m ON m.idmaquina = a.idmaquina
+        JOIN componente c ON l.idComponente = c.idComponente
+		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+		WHERE l.dthCaptura >= NOW() - INTERVAL 7 DAY 
+		AND sm.tokenEmpresa = token AND m.hostname = maquina
+		GROUP BY Componente
+		ORDER BY numAlertas DESC
+        LIMIT 3;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE graficosCRD(IN token INT, IN maquina VARCHAR(100), IN componente VARCHAR(100))
+BEGIN
+	SELECT COUNT(*) as numAlertas, DATE_FORMAT(l.dthCaptura, '%d/%m') as Dia 
+		FROM alerta a
+		JOIN leitura l ON l.idLeitura = a.idLeitura
+		JOIN maquina m ON m.idmaquina = a.idmaquina
+        JOIN componente c ON l.idComponente = c.idComponente
+		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+		WHERE l.dthCaptura >= NOW() - INTERVAL 7 DAY 
+		AND sm.tokenEmpresa = token AND m.hostname = maquina AND c.tipoComponente = componente
+		GROUP BY Dia
+		ORDER BY Dia ASC;
+		
+	SELECT l.dado as dado
+		FROM leitura l 
+		JOIN maquina m ON m.idmaquina = l.idmaquina
+        JOIN componente c ON l.idComponente = c.idComponente
+		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+		WHERE l.dthCaptura >= NOW() - INTERVAL 7 DAY 
+		AND sm.tokenEmpresa = token AND m.hostname = maquina AND c.tipoComponente = componente
+		ORDER BY l.dthCaptura DESC;
+END $$
+DELIMITER;
+
+DELIMITER $$
+CREATE PROCEDURE graficosRede(IN token INT, IN maquina VARCHAR(100), IN componente VARCHAR(100))
+BEGIN
+	SELECT COUNT(*) as numAlertas, DATE_FORMAT(l.dthCaptura, '%d/%m') as Dia 
+		FROM alerta a
+		JOIN leitura l ON l.idLeitura = a.idLeitura
+		JOIN maquina m ON m.idmaquina = a.idmaquina
+        JOIN componente c ON l.idComponente = c.idComponente
+		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+		WHERE l.dthCaptura >= NOW() - INTERVAL 7 DAY 
+		AND sm.tokenEmpresa = token AND m.hostname = maquina AND c.tipoComponente = componente
+		GROUP BY Dia
+		ORDER BY Dia ASC;
+		
+	SELECT r.packetLoss as dado
+		FROM rede r
+		JOIN maquina m ON r.idMaquina = m.idMaquina
+		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+		AND sm.tokenEmpresa = token AND m.hostname = maquina
+		WHERE r.dthCaptura >= NOW() - INTERVAL 7 DAY 
+        AND sm.tokenEmpresa = token AND m.hostname = maquina 
+		ORDER BY r.dthCaptura DESC;
+END $$
+DELIMITER ;

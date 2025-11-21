@@ -211,6 +211,102 @@ INSERT INTO componente (idMaquina, tipoComponente, unidadeMedida) VALUES
 (1, 'DISCO', 'GB'),
 (1, 'CPU', '%');
 
+INSERT INTO parametro (idComponente, idMaquina, nivel, min, max) VALUES
+(4, 1, 'CPU', 0, 85),          -- alerta acima de 85%
+(2, 1, 'MEMORIA', 0, 12),       -- supomos máquina com 16GB, alerta > 12GB
+(3, 1, 'DISCO', 0, 450),        -- alerta > 450GB usados
+(1, 1, 'REDE', 0, 2);
+
+INSERT INTO leitura (idComponente, idMaquina, dado, dthCaptura) VALUES
+(4,1,72,'2025-11-18 10:00:00'),
+(4,1,65,'2025-11-18 14:00:00'),
+(4,1,90,'2025-11-18 18:00:00'),  -- ALERTA
+
+(4,1,55,'2025-11-19 10:00:00'),
+(4,1,68,'2025-11-19 14:00:00'),
+(4,1,88,'2025-11-19 18:00:00'),  -- ALERTA
+
+(4,1,60,'2025-11-20 10:00:00'),
+(4,1,82,'2025-11-20 14:00:00'),
+(4,1,92,'2025-11-20 18:00:00'),  -- ALERTA
+
+(4,1,70,'2025-11-21 10:00:00'),
+(4,1,84,'2025-11-21 14:00:00'),
+(4,1,93,'2025-11-21 18:00:00'); -- ALERTA
+
+
+INSERT INTO leitura (idComponente, idMaquina, dado, dthCaptura) VALUES
+(2,1,10.5,'2025-11-18 10:10:00'),
+(2,1,11.2,'2025-11-18 14:10:00'),
+(2,1,13.8,'2025-11-18 18:10:00'), -- ALERTA
+
+(2,1,9.8,'2025-11-19 10:10:00'),
+(2,1,11.9,'2025-11-19 14:10:00'),
+(2,1,14.1,'2025-11-19 18:10:00'), -- ALERTA
+
+(2,1,10.2,'2025-11-20 10:10:00'),
+(2,1,12.1,'2025-11-20 14:10:00'),
+(2,1,14.5,'2025-11-20 18:10:00'), -- ALERTA
+
+(2,1,11.0,'2025-11-21 10:10:00'),
+(2,1,12.5,'2025-11-21 14:10:00'),
+(2,1,14.7,'2025-11-21 18:10:00'); -- ALERTA
+
+
+INSERT INTO leitura (idComponente, idMaquina, dado, dthCaptura) VALUES
+(3,1,410,'2025-11-18 11:00:00'),
+(3,1,430,'2025-11-18 15:00:00'),
+(3,1,470,'2025-11-18 19:00:00'), -- ALERTA
+
+(3,1,405,'2025-11-19 11:00:00'),
+(3,1,438,'2025-11-19 15:00:00'),
+(3,1,465,'2025-11-19 19:00:00'), -- ALERTA
+
+(3,1,412,'2025-11-20 11:00:00'),
+(3,1,445,'2025-11-20 15:00:00'),
+(3,1,480,'2025-11-20 19:00:00'), -- ALERTA
+
+(3,1,420,'2025-11-21 11:00:00'),
+(3,1,440,'2025-11-21 15:00:00'),
+(3,1,490,'2025-11-21 19:00:00'); -- ALERTA
+
+
+INSERT INTO rede (idMaquina, idComponente, download, upload, packetLoss, dthCaptura) VALUES
+(1,1,120,18,0.5,'2025-11-18 12:00:00'),
+(1,1,115,17,1.0,'2025-11-18 16:00:00'),
+(1,1,110,15,3.5,'2025-11-18 20:00:00'), -- ALERTA
+
+(1,1,130,20,0.8,'2025-11-19 12:00:00'),
+(1,1,125,18,1.5,'2025-11-19 16:00:00'),
+(1,1,118,17,4.1,'2025-11-19 20:00:00'), -- ALERTA
+
+(1,1,128,19,1.2,'2025-11-20 12:00:00'),
+(1,1,123,18,1.8,'2025-11-20 16:00:00'),
+(1,1,119,16,3.7,'2025-11-20 20:00:00'), -- ALERTA
+
+(1,1,135,20,1.0,'2025-11-21 12:00:00'),
+(1,1,129,19,1.7,'2025-11-21 16:00:00'),
+(1,1,121,17,4.3,'2025-11-21 20:00:00'); -- ALERTA
+
+
+INSERT INTO alerta (idLeitura, idComponente, idMaquina, idParametro, descricao) VALUES
+-- CPU
+(3,4,1,1,'CPU acima do limite'),
+(6,4,1,1,'CPU acima do limite'),
+(9,4,1,1,'CPU acima do limite'),
+(12,4,1,1,'CPU acima do limite'),
+
+-- MEMÓRIA
+(15,2,1,2,'Memória acima do limite'),
+(18,2,1,2,'Memória acima do limite'),
+(21,2,1,2,'Memória acima do limite'),
+(24,2,1,2,'Memória acima do limite'),
+
+-- DISCO
+(27,3,1,3,'Uso de disco acima do limite'),
+(30,3,1,3,'Uso de disco acima do limite'),
+(33,3,1,3,'Uso de disco acima do limite'),
+(36,3,1,3,'Uso de disco acima do limite');  
 
 -- Dados de Rede
 SELECT 

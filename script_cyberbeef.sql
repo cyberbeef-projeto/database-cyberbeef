@@ -28,6 +28,10 @@ DROP COLUMN cep,
 DROP COLUMN numero;
 
 ALTER TABLE empresa
+ADD COLUMN statusEmpresa BOOLEAN DEFAULT 1;
+
+
+ALTER TABLE empresa
 ADD COLUMN dataCadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
 
 SELECT * FROM empresa;
@@ -184,8 +188,10 @@ CREATE TABLE IF NOT EXISTS log (
 INSERT INTO contato (telefone, email, assunto, descricao) VALUES 
 ('11999999999', 'contato@cyberbeef.com', 'Suporte', 'Contato principal da empresa');
 
-INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj) VALUES
-(1001, 'CyberBeef Ltda', 'CyberBeef', '12345678000199');
+INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa) VALUES
+(1001, 'CyberBeef Ltda', 'CyberBeef', '12345678000199', 1);
+
+
 
 INSERT INTO permissaoUsuario (cargo, nivelPermissao) VALUES 
 ('Administrador', 2),
@@ -677,3 +683,6 @@ BEGIN
 		ORDER BY r.dthCaptura DESC;
 END $$
 DELIMITER ;
+
+
+

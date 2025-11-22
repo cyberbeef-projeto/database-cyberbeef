@@ -686,3 +686,110 @@ DELIMITER ;
 
 
 
+-- Empresa 2001
+INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
+VALUES (2001, 'Frigorífico Santa Bovina Ltda', 'Santa Bovina', '12234567000191', 1, '2025-06-05 09:12:00');
+
+INSERT INTO endereco (fk_endereco_empresa, logradouro, numero, bairro, cidade, estado, cep)
+VALUES (2001, 'Rua do Açougue', '120', 'Industrial', 'Cascavel', 'PR', '85810100');
+
+-- Empresa 2002
+INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
+VALUES (2002, 'Cortes Premium do Sul S/A', 'Premium Beef', '22987654000140', 1, '2025-07-18 14:35:00');
+
+INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
+VALUES (2002, 'Av. das Indústrias', '455', 'Distrito 4', 'Passo Fundo', 'RS', '99010000');
+
+-- Empresa 2003
+INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
+VALUES (2003, 'FrigoVale Alimentos Ltda', 'FrigoVale', '33222111000109', 1, '2025-08-02 11:05:00');
+
+INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
+VALUES (2003, 'Rua da Produção', '89', 'Centro', 'Uberlândia', 'MG', '38400100');
+
+-- Empresa 2004
+INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
+VALUES (2004, 'Carnes Mineiras S/A', 'Minas Beef', '44111222000155', 1, '2025-09-10 16:20:00');
+
+INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
+VALUES (2004, 'Rua das Fazendas', '77', 'Distrito Industrial', 'Belo Horizonte', 'MG', '30140000');
+
+-- Empresa 2005
+INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
+VALUES (2005, 'Frigorífico Paulista LTDA', 'Paulista Meats', '55123456000100', 1, '2025-06-28 08:45:00');
+
+INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
+VALUES (2005, 'Av. Água Branca', '210', 'Vila Industrial', 'Campinas', 'SP', '13010000');
+
+-- Empresa 2006
+INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
+VALUES (2006, 'NorteCarnes Comércio Ltda', 'NorteCarnes', '66123456000188', 1, '2025-10-03 13:10:00');
+
+INSERT INTO endereco (fk_endereco_empresa, logradouro, numero, bairro, cidade, estado, cep)
+VALUES (2006, 'Rua do Porto', '34', 'Centro', 'Fortaleza', 'CE', '60000000');
+
+-- Empresa 2007
+INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
+VALUES (2007, 'Frigorífico Atlântico S/A', 'Atlântico Beef', '77123456000177', 1, '2025-05-30 10:00:00');
+
+INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
+VALUES (2007, 'Av. Marítima', '500', 'Zona Industrial', 'Salvador', 'BA', '40000000');
+
+-- Empresa 2008
+INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
+VALUES (2008, 'Cortes da Serra Ltda', 'Serra Carnes', '88123456000166', 1, '2025-07-29 17:25:00');
+
+INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
+VALUES (2008, 'Rua dos Criadores', '98', 'Bairro Agro', 'Londrina', 'PR', '86000000');
+
+-- Empresa 2009
+INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
+VALUES (2009, 'Frigorífico do Litoral Ltda', 'Litoral Meats', '99123456000155', 1, '2025-09-22 12:40:00');
+
+INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
+VALUES (2009, 'Av. Oceânica', '777', 'Portuário', 'Porto Alegre', 'RS', '90000000');
+
+-- Empresa 2010
+INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
+VALUES (2010, 'Carnes do Planalto S/A', 'Planalto Beef', '10123456000144', 1, '2025-08-15 09:55:00');
+
+INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
+VALUES (2010, 'Rua do Frigorífico', '22', 'Distrito Agro', 'Goiânia', 'GO', '74000000');
+
+-- Empresa 2011
+INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
+VALUES (2011, 'Frigosul Distribuição Ltda', 'Frigosul', '11123456000133', 1, '2025-11-05 15:05:00');
+
+INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
+VALUES (2011, 'Av. Central', '310', 'Industrial', 'Pelotas', 'RS', '96000000');
+
+-- Empresa 2012
+INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
+VALUES (2012, 'Carnes do Norte Ltda', 'Norte Frigo', '12123456000122', 1, '2025-10-19 08:30:00');
+
+INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
+VALUES (2012, 'Rua dos Pescadores', '140', 'Centro', 'Belém', 'PA', '66000000');
+
+-- Empresa 2013
+INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
+VALUES (2013, 'Carnes da Serra LTDA', 'SerraFrios', '13123456000111', 1, '2025-06-12 11:50:00');
+
+INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
+VALUES (2013, 'Estrada Rural', '5', 'Zona Rural', 'Florianópolis', 'SC', '88000000');
+
+-- Empresa 2014
+INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
+VALUES (2014, 'Frigorífico Centro Oeste Ltda', 'CentroOeste Meats', '14123456000100', 1, '2025-05-25 10:15:00');
+
+INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
+VALUES (2014, 'Av. Agro', '999', 'Distrito Agro', 'Anápolis', 'GO', '75000000');
+
+-- Empresa 2015
+INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
+VALUES (2015, 'Cortes do Nordeste S/A', 'Nordeste Carnes', '15123456000189', 1, '2025-11-12 13:20:00');
+
+INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
+VALUES (2015, 'Rua do Abate', '56', 'Distrito Industrial', 'Recife', 'PE', '50000000');
+
+
+

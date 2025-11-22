@@ -791,5 +791,18 @@ VALUES (2015, 'Cortes do Nordeste S/A', 'Nordeste Carnes', '15123456000189', 1, 
 INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
 VALUES (2015, 'Rua do Abate', '56', 'Distrito Industrial', 'Recife', 'PE', '50000000');
 
+INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
+VALUES (2016, 'Frigorífico Central S/A', 'Central Carnes', '16234567000198', 1, '2025-05-22 10:30:00');
+
+INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
+VALUES (2016, 'Avenida do Comércio', '120', 'Bairro Central', 'Recife', 'PE', '50010000');
+
+Select * from empresa;
+select * from endereco;
+UPDATE empresa
+SET statusEmpresa = 1
+WHERE tokenEmpresa = 2016;
+
+
 
 

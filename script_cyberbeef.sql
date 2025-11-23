@@ -804,22 +804,7 @@ UPDATE empresa
 SET statusEmpresa = 1
 WHERE tokenEmpresa = 2016;
 
-SELECT
-(SELECT COUNT(*) 
-	FROM alerta a 
-    JOIN maquina m ON m.idmaquina = a.idmaquina
-    JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
-    WHERE sm.tokenEmpresa = '1001') as alertasGerais,
-(SELECT COUNT(*) 
-	FROM alerta a 
-    JOIN maquina m ON m.idmaquina = a.idmaquina
-    JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
-    WHERE sm.tokenEmpresa = '1001' AND a.descricao = "Crítico") as alertasCriticos,
-(SELECT COUNT(*) 
-	FROM alerta a 
-    JOIN maquina m ON m.idmaquina = a.idmaquina
-    JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
-    WHERE sm.tokenEmpresa = '1001' AND a.descricao = "Anormal") as alertasAnormais;
+
 
 
 

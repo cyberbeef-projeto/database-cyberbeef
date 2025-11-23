@@ -120,7 +120,7 @@ CREATE TABLE setorMaquina (
 CREATE TABLE componente (
     idComponente INT PRIMARY KEY AUTO_INCREMENT,
     idMaquina INT NOT NULL,
-    tipoComponente ENUM('CPU','MEMORIA','DISCO','REDE') NOT NULL,
+    tipoComponente ENUM('CPU','RAM','DISCO','REDE') NOT NULL,
     unidadeMedida VARCHAR(45) NOT NULL,
     CONSTRAINT fkComponenteMaquina FOREIGN KEY (idMaquina) REFERENCES maquina(idMaquina),
     UNIQUE (idMaquina, tipoComponente)
@@ -212,16 +212,16 @@ INSERT INTO setorMaquina (idSetor, tokenEmpresa, idMaquina, status, responsavel,
 (1, 1001, 1, 'Ativa', 'Rafael', NOW());
 
 INSERT INTO componente (idMaquina, tipoComponente, unidadeMedida) VALUES 
-(1, 'REDE', 'Mbps'),
-(1, 'MEMORIA', 'GB'),
-(1, 'DISCO', 'GB'),
+(1, 'REDE', '%'),
+(1, 'RAM', '%'),
+(1, 'DISCO', '%'),
 (1, 'CPU', '%');
 
 INSERT INTO parametro (idComponente, idMaquina, nivel, min, max) VALUES
-(4, 1, 'CPU', 0, 85),          -- alerta acima de 85%
-(2, 1, 'MEMORIA', 0, 12),       -- supomos máquina com 16GB, alerta > 12GB
-(3, 1, 'DISCO', 0, 450),        -- alerta > 450GB usados
-(1, 1, 'REDE', 0, 2);
+(4, 1, 'CPU', 0, 85),          
+(2, 1, 'RAM', 0, 85),       
+(3, 1, 'DISCO', 0, 85),       
+(1, 1, 'REDE', 0, 2.5);
 
 INSERT INTO leitura (idComponente, idMaquina, dado, dthCaptura) VALUES
 (4,1,72,'2025-11-18 10:00:00'),
@@ -241,40 +241,41 @@ INSERT INTO leitura (idComponente, idMaquina, dado, dthCaptura) VALUES
 (4,1,93,'2025-11-21 18:00:00'); -- ALERTA
 
 
-INSERT INTO leitura (idComponente, idMaquina, dado, dthCaptura) VALUES
-(2,1,10.5,'2025-11-18 10:10:00'),
-(2,1,11.2,'2025-11-18 14:10:00'),
-(2,1,13.8,'2025-11-18 18:10:00'), -- ALERTA
-
-(2,1,9.8,'2025-11-19 10:10:00'),
-(2,1,11.9,'2025-11-19 14:10:00'),
-(2,1,14.1,'2025-11-19 18:10:00'), -- ALERTA
-
-(2,1,10.2,'2025-11-20 10:10:00'),
-(2,1,12.1,'2025-11-20 14:10:00'),
-(2,1,14.5,'2025-11-20 18:10:00'), -- ALERTA
-
-(2,1,11.0,'2025-11-21 10:10:00'),
-(2,1,12.5,'2025-11-21 14:10:00'),
-(2,1,14.7,'2025-11-21 18:10:00'); -- ALERTA
-
 
 INSERT INTO leitura (idComponente, idMaquina, dado, dthCaptura) VALUES
-(3,1,410,'2025-11-18 11:00:00'),
-(3,1,430,'2025-11-18 15:00:00'),
-(3,1,470,'2025-11-18 19:00:00'), -- ALERTA
+(2,1,80,'2025-11-18 10:10:00'),
+(2,1,82,'2025-11-18 14:10:00'),
+(2,1,88,'2025-11-18 18:10:00'), -- ALERTA
 
-(3,1,405,'2025-11-19 11:00:00'),
-(3,1,438,'2025-11-19 15:00:00'),
-(3,1,465,'2025-11-19 19:00:00'), -- ALERTA
+(2,1,80,'2025-11-19 10:10:00'),
+(2,1,83,'2025-11-19 14:10:00'),
+(2,1,91,'2025-11-19 18:10:00'), -- ALERTA
 
-(3,1,412,'2025-11-20 11:00:00'),
-(3,1,445,'2025-11-20 15:00:00'),
-(3,1,480,'2025-11-20 19:00:00'), -- ALERTA
+(2,1,84,'2025-11-20 10:10:00'),
+(2,1,81,'2025-11-20 14:10:00'),
+(2,1,90,'2025-11-20 18:10:00'), -- ALERTA
 
-(3,1,420,'2025-11-21 11:00:00'),
-(3,1,440,'2025-11-21 15:00:00'),
-(3,1,490,'2025-11-21 19:00:00'); -- ALERTA
+(2,1,80,'2025-11-21 10:10:00'),
+(2,1,80,'2025-11-21 14:10:00'),
+(2,1,90,'2025-11-21 18:10:00'); -- ALERTA
+
+
+INSERT INTO leitura (idComponente, idMaquina, dado, dthCaptura) VALUES
+(3,1,70,'2025-11-18 11:00:00'),
+(3,1,80,'2025-11-18 15:00:00'),
+(3,1,94,'2025-11-18 19:00:00'), -- ALERTA
+
+(3,1,71,'2025-11-19 11:00:00'),
+(3,1,79,'2025-11-19 15:00:00'),
+(3,1,93,'2025-11-19 19:00:00'), -- ALERTA
+
+(3,1,81,'2025-11-20 11:00:00'),
+(3,1,82,'2025-11-20 15:00:00'),
+(3,1,99,'2025-11-20 19:00:00'), -- ALERTA
+
+(3,1,82,'2025-11-21 11:00:00'),
+(3,1,80,'2025-11-21 15:00:00'),
+(3,1,91,'2025-11-21 19:00:00'); -- ALERTA
 
 
 INSERT INTO rede (idMaquina, idComponente, download, upload, packetLoss, dthCaptura) VALUES
@@ -297,22 +298,22 @@ INSERT INTO rede (idMaquina, idComponente, download, upload, packetLoss, dthCapt
 
 INSERT INTO alerta (idLeitura, idComponente, idMaquina, idParametro, descricao) VALUES
 -- CPU
-(3,4,1,1,'CPU acima do limite'),
-(6,4,1,1,'CPU acima do limite'),
-(9,4,1,1,'CPU acima do limite'),
-(12,4,1,1,'CPU acima do limite'),
+(3,4,1,1,'Crítico'),
+(6,4,1,1,'Crítico'),
+(9,4,1,1,'Crítico'),
+(12,4,1,1,'Crítico'),
 
 -- MEMÓRIA
-(15,2,1,2,'Memória acima do limite'),
-(18,2,1,2,'Memória acima do limite'),
-(21,2,1,2,'Memória acima do limite'),
-(24,2,1,2,'Memória acima do limite'),
+(15,2,1,2,'Crítico'),
+(18,2,1,2,'Crítico'),
+(21,2,1,2,'Crítico'),
+(24,2,1,2,'Crítico'),
 
 -- DISCO
-(27,3,1,3,'Uso de disco acima do limite'),
-(30,3,1,3,'Uso de disco acima do limite'),
-(33,3,1,3,'Uso de disco acima do limite'),
-(36,3,1,3,'Uso de disco acima do limite');  
+(27,3,1,3,'Crítico'),
+(30,3,1,3,'Crítico'),
+(33,3,1,3,'Crítico'),
+(36,3,1,3,'Crítico');  
 
 -- Dados de Rede
 SELECT 
@@ -690,7 +691,7 @@ DELIMITER ;
 INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
 VALUES (2001, 'Frigorífico Santa Bovina Ltda', 'Santa Bovina', '12234567000191', 1, '2025-06-05 09:12:00');
 
-INSERT INTO endereco (fk_endereco_empresa, logradouro, numero, bairro, cidade, estado, cep)
+INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
 VALUES (2001, 'Rua do Açougue', '120', 'Industrial', 'Cascavel', 'PR', '85810100');
 
 -- Empresa 2002
@@ -725,7 +726,7 @@ VALUES (2005, 'Av. Água Branca', '210', 'Vila Industrial', 'Campinas', 'SP', '1
 INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
 VALUES (2006, 'NorteCarnes Comércio Ltda', 'NorteCarnes', '66123456000188', 1, '2025-10-03 13:10:00');
 
-INSERT INTO endereco (fk_endereco_empresa, logradouro, numero, bairro, cidade, estado, cep)
+INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
 VALUES (2006, 'Rua do Porto', '34', 'Centro', 'Fortaleza', 'CE', '60000000');
 
 -- Empresa 2007
@@ -802,6 +803,23 @@ select * from endereco;
 UPDATE empresa
 SET statusEmpresa = 1
 WHERE tokenEmpresa = 2016;
+
+SELECT
+(SELECT COUNT(*) 
+	FROM alerta a 
+    JOIN maquina m ON m.idmaquina = a.idmaquina
+    JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+    WHERE sm.tokenEmpresa = '1001') as alertasGerais,
+(SELECT COUNT(*) 
+	FROM alerta a 
+    JOIN maquina m ON m.idmaquina = a.idmaquina
+    JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+    WHERE sm.tokenEmpresa = '1001' AND a.descricao = "Crítico") as alertasCriticos,
+(SELECT COUNT(*) 
+	FROM alerta a 
+    JOIN maquina m ON m.idmaquina = a.idmaquina
+    JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
+    WHERE sm.tokenEmpresa = '1001' AND a.descricao = "Anormal") as alertasAnormais;
 
 
 

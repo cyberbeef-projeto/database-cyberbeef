@@ -401,7 +401,7 @@ BEGIN
 		JOIN maquina m ON sm.idMaquina = m.idMaquina
 		WHERE sm.tokenEmpresa = s.tokenEmpresa AND sm.tokenEmpresa = token;
 
-	SELECT m.hostname as Máquina, c.tipoComponente as Componete, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora FROM alerta a 
+	SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora FROM alerta a 
 		JOIN leitura l ON l.idLeitura = a.idLeitura
 		JOIN componente c ON c.idComponente = a.idComponente
 		JOIN maquina m ON m.idmaquina = a.idmaquina
@@ -410,7 +410,7 @@ BEGIN
 		AND sm.tokenEmpresa = token
 		ORDER BY l.dthCaptura DESC;
         
-    SELECT m.hostname as Máquina, c.tipoComponente as Componete, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora FROM alerta a 
+    SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora FROM alerta a 
 		JOIN leitura l ON l.idLeitura = a.idLeitura
 		JOIN componente c ON c.idComponente = a.idComponente
 		JOIN maquina m ON m.idmaquina = a.idmaquina
@@ -419,7 +419,7 @@ BEGIN
 		ORDER BY l.dthCaptura DESC
 		LIMIT 1;
         
-	SELECT m.hostname as Máquina, c.tipoComponente as Componete, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora FROM alerta a 
+	SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora FROM alerta a 
 		JOIN leitura l ON l.idLeitura = a.idLeitura
 		JOIN componente c ON c.idComponente = a.idComponente
 		JOIN maquina m ON m.idmaquina = a.idmaquina

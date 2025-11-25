@@ -525,7 +525,7 @@ BEGIN
 		ORDER BY l.dthCaptura DESC
 		LIMIT 1;
 		
-	SELECT m.hostname as Maquina, c.tipoComponente as Componente, ROUND(STDDEV_SAMP(l.dado),0) as DesvioPadrão, ROUND(AVG(l.dado),0) as Media
+	SELECT m.hostname as Maquina, c.tipoComponente as Componente, ROUND(STDDEV_SAMP(l.dado),0) as DesvioPadrao, ROUND(AVG(l.dado),0) as Media
 		FROM leitura l 
 		JOIN maquina m ON l.idMaquina = m.idMaquina
 		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina

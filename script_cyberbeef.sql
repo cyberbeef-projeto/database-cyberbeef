@@ -395,13 +395,13 @@ ORDER BY r.dthCaptura DESC;
 DELIMITER $$
 CREATE PROCEDURE descKpiTodas(IN token INT)
 BEGIN
-	SELECT m.hostname as Máquina
+	SELECT m.hostname as Maquina
 		FROM setor s
 		JOIN setorMaquina sm ON s.idSetor = sm.idSetor
 		JOIN maquina m ON sm.idMaquina = m.idMaquina
 		WHERE sm.tokenEmpresa = s.tokenEmpresa AND sm.tokenEmpresa = token;
 
-	SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora FROM alerta a 
+	SELECT m.hostname as Maquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora FROM alerta a 
 		JOIN leitura l ON l.idLeitura = a.idLeitura
 		JOIN componente c ON c.idComponente = a.idComponente
 		JOIN maquina m ON m.idmaquina = a.idmaquina
@@ -410,7 +410,7 @@ BEGIN
 		AND sm.tokenEmpresa = token
 		ORDER BY l.dthCaptura DESC;
         
-    SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora FROM alerta a 
+    SELECT m.hostname as Maquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora FROM alerta a 
 		JOIN leitura l ON l.idLeitura = a.idLeitura
 		JOIN componente c ON c.idComponente = a.idComponente
 		JOIN maquina m ON m.idmaquina = a.idmaquina
@@ -419,7 +419,7 @@ BEGIN
 		ORDER BY l.dthCaptura DESC
 		LIMIT 1;
         
-	SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora FROM alerta a 
+	SELECT m.hostname as Maquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora FROM alerta a 
 		JOIN leitura l ON l.idLeitura = a.idLeitura
 		JOIN componente c ON c.idComponente = a.idComponente
 		JOIN maquina m ON m.idmaquina = a.idmaquina
@@ -450,7 +450,7 @@ BEGIN
 		JOIN maquina m ON sm.idMaquina = m.idMaquina
 		WHERE sm.tokenEmpresa = token AND m.hostname = maquina;
 
-	SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+	SELECT m.hostname as Maquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
 		FROM alerta a 
 		JOIN leitura l ON l.idLeitura = a.idLeitura
 		JOIN componente c ON c.idComponente = a.idComponente
@@ -460,7 +460,7 @@ BEGIN
 		AND sm.tokenEmpresa = token AND m.hostname = maquina
 		ORDER BY l.dthCaptura DESC;
 		
-	SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+	SELECT m.hostname as Maquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
 		FROM alerta a 
 		JOIN leitura l ON l.idLeitura = a.idLeitura
 		JOIN componente c ON c.idComponente = a.idComponente
@@ -470,7 +470,7 @@ BEGIN
 		ORDER BY l.dthCaptura DESC
 		LIMIT 1;
 		
-	SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+	SELECT m.hostname as Maquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
 		FROM alerta a 
 		JOIN leitura l ON l.idLeitura = a.idLeitura
 		JOIN componente c ON c.idComponente = a.idComponente
@@ -496,7 +496,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE descKpiCRD(IN token INT, IN maquina VARCHAR(100), IN componente VARCHAR(100))
 BEGIN
-	SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+	SELECT m.hostname as Maquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
 		FROM leitura l 
 		JOIN maquina m ON l.idMaquina = m.idMaquina
 		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
@@ -505,7 +505,7 @@ BEGIN
 		ORDER BY l.dthCaptura DESC
 		LIMIT 1;
 		
-	SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+	SELECT m.hostname as Maquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
 		FROM alerta a
 		JOIN leitura l ON l.idLeitura = a.idLeitura
 		JOIN maquina m ON m.idmaquina = a.idmaquina
@@ -515,7 +515,7 @@ BEGIN
 		AND sm.tokenEmpresa = token AND m.hostname = maquina AND c.tipoComponente = componente
 		ORDER BY l.dthCaptura DESC;
 		
-	SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+	SELECT m.hostname as Maquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
 		FROM alerta a
 		JOIN leitura l ON l.idLeitura = a.idLeitura
 		JOIN maquina m ON m.idmaquina = a.idmaquina
@@ -525,7 +525,7 @@ BEGIN
 		ORDER BY l.dthCaptura DESC
 		LIMIT 1;
 		
-	SELECT m.hostname as Máquina, c.tipoComponente as Componente, ROUND(STDDEV_SAMP(l.dado),0) as DesvioPadrão, ROUND(AVG(l.dado),0) as Média
+	SELECT m.hostname as Maquina, c.tipoComponente as Componente, ROUND(STDDEV_SAMP(l.dado),0) as DesvioPadrão, ROUND(AVG(l.dado),0) as Media
 		FROM leitura l 
 		JOIN maquina m ON l.idMaquina = m.idMaquina
 		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
@@ -542,7 +542,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE descKpiRede(IN token INT, IN maquina VARCHAR(100), IN componente VARCHAR(100))
 BEGIN
-	SELECT m.hostname as Máquina, "REDE" as Componente, r.upload as Upload, DATE_FORMAT(r.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+	SELECT m.hostname as Maquina, "REDE" as Componente, r.upload as Upload, DATE_FORMAT(r.dthCaptura, '%d/%m/%y %H:%i') as DataHora
 		FROM rede r
 		JOIN maquina m ON r.idMaquina = m.idMaquina
 		JOIN setorMaquina sm ON sm.idMaquina = m.idMaquina
@@ -550,7 +550,7 @@ BEGIN
 		ORDER BY r.dthCaptura DESC
 		LIMIT 1;
 
-	SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+	SELECT m.hostname as Maquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
 		FROM alerta a
 		JOIN leitura l ON l.idLeitura = a.idLeitura
 		JOIN maquina m ON m.idmaquina = a.idmaquina
@@ -560,7 +560,7 @@ BEGIN
 		AND sm.tokenEmpresa = token AND m.hostname = maquina AND c.tipoComponente = componente
 		ORDER BY l.dthCaptura DESC;
 		
-	SELECT m.hostname as Máquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
+	SELECT m.hostname as Maquina, c.tipoComponente as Componente, l.dado as Dado, DATE_FORMAT(l.dthCaptura, '%d/%m/%y %H:%i') as DataHora
 		FROM alerta a
 		JOIN leitura l ON l.idLeitura = a.idLeitura
 		JOIN maquina m ON m.idmaquina = a.idmaquina

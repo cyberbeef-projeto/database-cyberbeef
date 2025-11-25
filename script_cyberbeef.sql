@@ -658,7 +658,7 @@ BEGIN
 		AND sm.tokenEmpresa = token AND m.hostname = maquina AND c.tipoComponente = componente
 		ORDER BY l.dthCaptura DESC;
 END $$
-DELIMITER;
+DELIMITER ;
 
 DELIMITER $$
 CREATE PROCEDURE graficosRede(IN token INT, IN maquina VARCHAR(100), IN componente VARCHAR(100))

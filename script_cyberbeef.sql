@@ -67,6 +67,7 @@ CREATE TABLE usuario (
     email VARCHAR(255) NOT NULL,
     senha VARCHAR(255) NOT NULL,
     nome VARCHAR(255) NOT NULL,
+    ativo BIT DEFAULT 1,
     CONSTRAINT fkEmpresaUsuario FOREIGN KEY (tokenEmpresa) REFERENCES empresa(tokenEmpresa),
     CONSTRAINT fkPermissaoUsuario FOREIGN KEY (permissaoUsuario) REFERENCES permissaoUsuario(idPermissaoUsuario)
 );
@@ -89,6 +90,7 @@ CREATE TABLE setor (
     tokenEmpresa INT NOT NULL,
     nomeSetor VARCHAR(45) NOT NULL,
     descricao VARCHAR(255),
+    ativo BIT DEFAULT 1,
     CONSTRAINT fkSetorEmpresa FOREIGN KEY (tokenEmpresa) REFERENCES empresa(tokenEmpresa)
 );
 
@@ -99,7 +101,8 @@ CREATE TABLE maquina (
     ip VARCHAR(45) NOT NULL,
     hostname VARCHAR(255) NOT NULL,
     sistemaOperacional VARCHAR(45) NOT NULL,
-    dthRegistro DATETIME NOT NULL
+    dthRegistro DATETIME NOT NULL,
+    ativo BIT DEFAULT 1
 );
 
 
@@ -803,9 +806,3 @@ select * from endereco;
 UPDATE empresa
 SET statusEmpresa = 1
 WHERE tokenEmpresa = 2016;
-
-
-
-
-
-

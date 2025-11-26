@@ -2,7 +2,10 @@
 -- BANCO DE DADOS CYBERBEEF -
 -- ==========================
 
-CREATE DATABASE cyberbeef;
+CREATE DATABASE cyberbeef
+	DEFAULT CHARACTER SET utf8mb4
+	DEFAULT COLLATE utf8mb4_unicode_ci;
+
 USE cyberbeef;
 
 CREATE TABLE contato (

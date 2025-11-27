@@ -171,7 +171,7 @@ CREATE TABLE parametro (
 
 CREATE TABLE alerta (
     idAlerta INT PRIMARY KEY AUTO_INCREMENT,
-    idLeitura INT NOT NULL,
+    idLeitura INT,
     idComponente INT NOT NULL,
     idMaquina INT NOT NULL,
     idParametro INT NOT NULL,
@@ -182,10 +182,11 @@ CREATE TABLE alerta (
     FOREIGN KEY (idParametro) REFERENCES parametro(idParametro)
 );
 
+
 CREATE TABLE IF NOT EXISTS log (
     idLog INT AUTO_INCREMENT PRIMARY KEY,
     id_maquina INT NOT NULL,
-    tipo ENUM("WARNING", "ERROR", "INFO") NOT NULL,              -- WARNING, ERROR, INFO
+    tipo ENUM("NORMAL", "ANORMAL", "CRITICO") NOT NULL,              -- WARNING, ERROR, INFO
     mensagem TEXT NOT NULL,
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_maquina) REFERENCES maquina(idMaquina)

@@ -1,7 +1,3 @@
--- ==========================
--- BANCO DE DADOS CYBERBEEF -
--- ==========================
-
 CREATE DATABASE cyberbeef
 	DEFAULT CHARACTER SET utf8mb4
 	DEFAULT COLLATE utf8mb4_unicode_ci;
@@ -810,3 +806,9 @@ select * from endereco;
 UPDATE empresa
 SET statusEmpresa = 1
 WHERE tokenEmpresa = 2016;
+
+SET time_zone = 'America/Sao_Paulo';
+SET GLOBAL time_zone = 'America/Sao_Paulo';
+
+SELECT @@global.time_zone, @@session.time_zone;
+SELECT NOW(), CURRENT_TIMESTAMP;

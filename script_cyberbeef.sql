@@ -37,7 +37,7 @@ SELECT * FROM empresa;
 
 CREATE TABLE endereco (
     idEndereco INT PRIMARY KEY AUTO_INCREMENT,
-    tokenEmpresa INT NOT NULL UNIQUE,  -- relação 1:1 com empresa
+    tokenEmpresa INT NOT NULL UNIQUE,  -- relacao 1:1 com empresa
     logradouro VARCHAR(255) NOT NULL,
     numero VARCHAR(10),
     bairro VARCHAR(100),
@@ -182,7 +182,7 @@ CREATE TABLE alerta (
 CREATE TABLE IF NOT EXISTS log (
     idLog INT AUTO_INCREMENT PRIMARY KEY,
     id_maquina INT NOT NULL,
-    tipo ENUM("NORMAL", "ANORMAL", "CRITICO") NOT NULL,              -- WARNING, ERROR, INFO
+    tipo ENUM("Normal", "Anormal", "Critico") NOT NULL,              -- WARNING, ERROR, INFO
     mensagem TEXT NOT NULL,
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_maquina) REFERENCES maquina(idMaquina)
@@ -206,7 +206,7 @@ INSERT INTO usuario (tokenEmpresa, permissaoUsuario, email, senha, nome) VALUES
 (1001, 2, 'analista@cyberbeef.com', 'tech123', 'Analista Pedro');
 
 INSERT INTO setor (tokenEmpresa, nomeSetor, descricao) VALUES 
-(1001, 'Produção de Alimentos', 'Esteira de produção alimentício');
+(1001, 'Producao de Alimentos', 'Esteira de producao alimenticio');
 
 INSERT INTO maquina (macAddress, ip, hostname, sistemaOperacional, dthRegistro) VALUES 
 ('00:11:22:33:44:55', '192.168.0.10', 'Servidor SCADA', 'Ubuntu', NOW());
@@ -301,22 +301,22 @@ INSERT INTO rede (idMaquina, idComponente, download, upload, packetLoss, dthCapt
 
 INSERT INTO alerta (idLeitura, idComponente, idMaquina, idParametro, descricao) VALUES
 -- CPU
-(3,4,1,1,'Crítico'),
-(6,4,1,1,'Crítico'),
-(9,4,1,1,'Crítico'),
-(12,4,1,1,'Crítico'),
+(3,4,1,1,'Critico'),
+(6,4,1,1,'Critico'),
+(9,4,1,1,'Critico'),
+(12,4,1,1,'Critico'),
 
--- MEMÓRIA
-(15,2,1,2,'Crítico'),
-(18,2,1,2,'Crítico'),
-(21,2,1,2,'Crítico'),
-(24,2,1,2,'Crítico'),
+-- MEMORIA
+(15,2,1,2,'Critico'),
+(18,2,1,2,'Critico'),
+(21,2,1,2,'Critico'),
+(24,2,1,2,'Critico'),
 
 -- DISCO
-(27,3,1,3,'Crítico'),
-(30,3,1,3,'Crítico'),
-(33,3,1,3,'Crítico'),
-(36,3,1,3,'Crítico');  
+(27,3,1,3,'Critico'),
+(30,3,1,3,'Critico'),
+(33,3,1,3,'Critico'),
+(36,3,1,3,'Critico');  
 
 -- Dados de Rede
 SELECT 
@@ -332,7 +332,7 @@ JOIN maquina m ON m.idMaquina = r.idMaquina
 JOIN componente c ON c.idComponente = r.idComponente 
 ORDER BY r.dthCaptura DESC;
 
--- Usuários e permissões
+-- Usuarios e permissões
 SELECT 
     u.idUsuario,
     u.nome AS nomeUsuario,
@@ -344,7 +344,7 @@ FROM usuario u
 JOIN permissaoUsuario p ON u.permissaoUsuario = p.idPermissaoUsuario
 JOIN empresa e ON u.tokenEmpresa = e.tokenEmpresa;
 
--- Setores e máquinas
+-- Setores e maquinas
 SELECT 
     s.idSetor,
     s.nomeSetor,
@@ -381,7 +381,7 @@ JOIN componente c ON l.idComponente = c.idComponente
 JOIN maquina m ON l.idMaquina = m.idMaquina
 ORDER BY l.dthCaptura DESC;
 
--- Leituras específicas de rede
+-- Leituras especificas de rede
 SELECT 
     r.idRede,
     m.hostname,
@@ -692,24 +692,24 @@ DELIMITER ;
 
 -- Empresa 2001
 INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
-VALUES (2001, 'Frigorífico Santa Bovina Ltda', 'Santa Bovina', '12234567000191', 1, '2025-06-05 09:12:00');
+VALUES (2001, 'Frigorifico Santa Bovina Ltda', 'Santa Bovina', '12234567000191', 1, '2025-06-05 09:12:00');
 
 INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
-VALUES (2001, 'Rua do Açougue', '120', 'Industrial', 'Cascavel', 'PR', '85810100');
+VALUES (2001, 'Rua do Acougue', '120', 'Industrial', 'Cascavel', 'PR', '85810100');
 
 -- Empresa 2002
 INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
 VALUES (2002, 'Cortes Premium do Sul S/A', 'Premium Beef', '22987654000140', 1, '2025-07-18 14:35:00');
 
 INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
-VALUES (2002, 'Av. das Indústrias', '455', 'Distrito 4', 'Passo Fundo', 'RS', '99010000');
+VALUES (2002, 'Av. das Industrias', '455', 'Distrito 4', 'Passo Fundo', 'RS', '99010000');
 
 -- Empresa 2003
 INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
 VALUES (2003, 'FrigoVale Alimentos Ltda', 'FrigoVale', '33222111000109', 1, '2025-08-02 11:05:00');
 
 INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
-VALUES (2003, 'Rua da Produção', '89', 'Centro', 'Uberlândia', 'MG', '38400100');
+VALUES (2003, 'Rua da Producao', '89', 'Centro', 'Uberlândia', 'MG', '38400100');
 
 -- Empresa 2004
 INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
@@ -720,24 +720,24 @@ VALUES (2004, 'Rua das Fazendas', '77', 'Distrito Industrial', 'Belo Horizonte',
 
 -- Empresa 2005
 INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
-VALUES (2005, 'Frigorífico Paulista LTDA', 'Paulista Meats', '55123456000100', 1, '2025-06-28 08:45:00');
+VALUES (2005, 'Frigorifico Paulista LTDA', 'Paulista Meats', '55123456000100', 1, '2025-06-28 08:45:00');
 
 INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
-VALUES (2005, 'Av. Água Branca', '210', 'Vila Industrial', 'Campinas', 'SP', '13010000');
+VALUES (2005, 'Av. Agua Branca', '210', 'Vila Industrial', 'Campinas', 'SP', '13010000');
 
 -- Empresa 2006
 INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
-VALUES (2006, 'NorteCarnes Comércio Ltda', 'NorteCarnes', '66123456000188', 1, '2025-10-03 13:10:00');
+VALUES (2006, 'NorteCarnes Comercio Ltda', 'NorteCarnes', '66123456000188', 1, '2025-10-03 13:10:00');
 
 INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
 VALUES (2006, 'Rua do Porto', '34', 'Centro', 'Fortaleza', 'CE', '60000000');
 
 -- Empresa 2007
 INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
-VALUES (2007, 'Frigorífico Atlântico S/A', 'Atlântico Beef', '77123456000177', 1, '2025-05-30 10:00:00');
+VALUES (2007, 'Frigorifico Atlântico S/A', 'Atlântico Beef', '77123456000177', 1, '2025-05-30 10:00:00');
 
 INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
-VALUES (2007, 'Av. Marítima', '500', 'Zona Industrial', 'Salvador', 'BA', '40000000');
+VALUES (2007, 'Av. Maritima', '500', 'Zona Industrial', 'Salvador', 'BA', '40000000');
 
 -- Empresa 2008
 INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
@@ -748,21 +748,21 @@ VALUES (2008, 'Rua dos Criadores', '98', 'Bairro Agro', 'Londrina', 'PR', '86000
 
 -- Empresa 2009
 INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
-VALUES (2009, 'Frigorífico do Litoral Ltda', 'Litoral Meats', '99123456000155', 1, '2025-09-22 12:40:00');
+VALUES (2009, 'Frigorifico do Litoral Ltda', 'Litoral Meats', '99123456000155', 1, '2025-09-22 12:40:00');
 
 INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
-VALUES (2009, 'Av. Oceânica', '777', 'Portuário', 'Porto Alegre', 'RS', '90000000');
+VALUES (2009, 'Av. Oceânica', '777', 'Portuario', 'Porto Alegre', 'RS', '90000000');
 
 -- Empresa 2010
 INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
 VALUES (2010, 'Carnes do Planalto S/A', 'Planalto Beef', '10123456000144', 1, '2025-08-15 09:55:00');
 
 INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
-VALUES (2010, 'Rua do Frigorífico', '22', 'Distrito Agro', 'Goiânia', 'GO', '74000000');
+VALUES (2010, 'Rua do Frigorifico', '22', 'Distrito Agro', 'Goiânia', 'GO', '74000000');
 
 -- Empresa 2011
 INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
-VALUES (2011, 'Frigosul Distribuição Ltda', 'Frigosul', '11123456000133', 1, '2025-11-05 15:05:00');
+VALUES (2011, 'Frigosul Distribuicao Ltda', 'Frigosul', '11123456000133', 1, '2025-11-05 15:05:00');
 
 INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
 VALUES (2011, 'Av. Central', '310', 'Industrial', 'Pelotas', 'RS', '96000000');
@@ -772,21 +772,21 @@ INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpres
 VALUES (2012, 'Carnes do Norte Ltda', 'Norte Frigo', '12123456000122', 1, '2025-10-19 08:30:00');
 
 INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
-VALUES (2012, 'Rua dos Pescadores', '140', 'Centro', 'Belém', 'PA', '66000000');
+VALUES (2012, 'Rua dos Pescadores', '140', 'Centro', 'Belem', 'PA', '66000000');
 
 -- Empresa 2013
 INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
 VALUES (2013, 'Carnes da Serra LTDA', 'SerraFrios', '13123456000111', 1, '2025-06-12 11:50:00');
 
 INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
-VALUES (2013, 'Estrada Rural', '5', 'Zona Rural', 'Florianópolis', 'SC', '88000000');
+VALUES (2013, 'Estrada Rural', '5', 'Zona Rural', 'Florianopolis', 'SC', '88000000');
 
 -- Empresa 2014
 INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
-VALUES (2014, 'Frigorífico Centro Oeste Ltda', 'CentroOeste Meats', '14123456000100', 1, '2025-05-25 10:15:00');
+VALUES (2014, 'Frigorifico Centro Oeste Ltda', 'CentroOeste Meats', '14123456000100', 1, '2025-05-25 10:15:00');
 
 INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
-VALUES (2014, 'Av. Agro', '999', 'Distrito Agro', 'Anápolis', 'GO', '75000000');
+VALUES (2014, 'Av. Agro', '999', 'Distrito Agro', 'Anapolis', 'GO', '75000000');
 
 -- Empresa 2015
 INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
@@ -796,10 +796,10 @@ INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, 
 VALUES (2015, 'Rua do Abate', '56', 'Distrito Industrial', 'Recife', 'PE', '50000000');
 
 INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
-VALUES (2016, 'Frigorífico Central S/A', 'Central Carnes', '16234567000198', 1, '2025-05-22 10:30:00');
+VALUES (2016, 'Frigorifico Central S/A', 'Central Carnes', '16234567000198', 1, '2025-05-22 10:30:00');
 
 INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
-VALUES (2016, 'Avenida do Comércio', '120', 'Bairro Central', 'Recife', 'PE', '50010000');
+VALUES (2016, 'Avenida do Comercio', '120', 'Bairro Central', 'Recife', 'PE', '50010000');
 
 Select * from empresa;
 select * from endereco;

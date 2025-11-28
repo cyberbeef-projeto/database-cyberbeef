@@ -811,7 +811,7 @@ SET statusEmpresa = 1
 WHERE tokenEmpresa = 2016;
 
 INSERT INTO maquina (macAddress, ip, hostname, sistemaOperacional, dthRegistro) VALUES 
-('AA:BB:CC:DD:EE:01', '192.168.0.20', 'Servidor Pecas', 'Ubuntu', NOW());
+('AA:BB:CC:DD:EE:01', '192.168.0.20', 'Servidor Cortes', 'Ubuntu', NOW());
 
 INSERT INTO setorMaquina (idSetor, tokenEmpresa, idMaquina, status, responsavel, dthVinculacao) VALUES 
 (1, 1001, 3, 'Ativa', 'Marcos', NOW());

@@ -712,7 +712,7 @@ INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpres
 VALUES (2003, 'FrigoVale Alimentos Ltda', 'FrigoVale', '33222111000109', 1, '2025-08-02 11:05:00');
 
 INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
-VALUES (2003, 'Rua da Producao', '89', 'Centro', 'Uberlândia', 'MG', '38400100');
+VALUES (2003, 'Rua da Producao', '89', 'Centro', 'Uberlandia', 'MG', '38400100');
 
 -- Empresa 2004
 INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
@@ -737,7 +737,7 @@ VALUES (2006, 'Rua do Porto', '34', 'Centro', 'Fortaleza', 'CE', '60000000');
 
 -- Empresa 2007
 INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
-VALUES (2007, 'Frigorifico Atlântico S/A', 'Atlântico Beef', '77123456000177', 1, '2025-05-30 10:00:00');
+VALUES (2007, 'Frigorifico Atlantico S/A', 'Atlantico Beef', '77123456000177', 1, '2025-05-30 10:00:00');
 
 INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
 VALUES (2007, 'Av. Maritima', '500', 'Zona Industrial', 'Salvador', 'BA', '40000000');
@@ -754,14 +754,14 @@ INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpres
 VALUES (2009, 'Frigorifico do Litoral Ltda', 'Litoral Meats', '99123456000155', 1, '2025-09-22 12:40:00');
 
 INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
-VALUES (2009, 'Av. Oceânica', '777', 'Portuario', 'Porto Alegre', 'RS', '90000000');
+VALUES (2009, 'Av. Oceanica', '777', 'Portuario', 'Porto Alegre', 'RS', '90000000');
 
 -- Empresa 2010
 INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
 VALUES (2010, 'Carnes do Planalto S/A', 'Planalto Beef', '10123456000144', 1, '2025-08-15 09:55:00');
 
 INSERT INTO endereco (tokenEmpresa, logradouro, numero, bairro, cidade, estado, cep)
-VALUES (2010, 'Rua do Frigorifico', '22', 'Distrito Agro', 'Goiânia', 'GO', '74000000');
+VALUES (2010, 'Rua do Frigorifico', '22', 'Distrito Agro', 'Goiania', 'GO', '74000000');
 
 -- Empresa 2011
 INSERT INTO empresa (tokenEmpresa, razaoSocial, nomeFantasia, cnpj, statusEmpresa, dataCadastro)
@@ -823,7 +823,7 @@ INSERT INTO componente (idMaquina, tipoComponente, unidadeMedida) VALUES
 (3, 'DISCO', '%'),
 (3, 'CPU', '%');
 
--- PARÂMETROS
+-- PARAMETROS
 INSERT INTO parametro (idComponente, idMaquina, nivel, min, max) VALUES
 (5, 3, 'CPU', 0, 85),
 (6, 3, 'RAM', 0, 85),

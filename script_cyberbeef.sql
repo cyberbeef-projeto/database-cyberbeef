@@ -206,19 +206,22 @@ INSERT INTO usuario (tokenEmpresa, permissaoUsuario, email, senha, nome) VALUES
 (1001, 2, 'analista@cyberbeef.com', 'tech123', 'Analista Pedro');
 
 INSERT INTO setor (tokenEmpresa, nomeSetor, descricao) VALUES 
-(1001, 'Producao de Alimentos', 'Esteira de producao alimenticio');
+(1001, 'Aves', 'Esteira Aves');
 
 INSERT INTO maquina (macAddress, ip, hostname, sistemaOperacional, dthRegistro) VALUES 
-('00:11:22:33:44:55', '192.168.0.10', 'Servidor SCADA', 'Ubuntu', NOW());
+('00:11:22:33:44:55', '192.168.0.10', 'Servidor SCADA', 'Ubuntu', NOW()),
+('00:11:22:33:44:77', '192.168.0.11', 'Servidor Aves', 'Ubuntu', NOW());
 
 INSERT INTO setorMaquina (idSetor, tokenEmpresa, idMaquina, status, responsavel, dthVinculacao) VALUES 
-(1, 1001, 1, 'Ativa', 'Rafael', NOW());
+(1, 1001, 1, 'Ativa', 'Rafael', NOW()),
+(1, 1001, 2, 'Ativa', 'Rafaela', NOW());
 
 INSERT INTO componente (idMaquina, tipoComponente, unidadeMedida) VALUES 
 (1, 'REDE', '%'),
 (1, 'RAM', '%'),
 (1, 'DISCO', '%'),
 (1, 'CPU', '%');
+
 
 INSERT INTO parametro (idComponente, idMaquina, nivel, min, max) VALUES
 (4, 1, 'CPU', 0, 85),          
@@ -229,19 +232,19 @@ INSERT INTO parametro (idComponente, idMaquina, nivel, min, max) VALUES
 INSERT INTO leitura (idComponente, idMaquina, dado, dthCaptura) VALUES
 (4,1,72,'2025-11-18 10:00:00'),
 (4,1,65,'2025-11-18 14:00:00'),
-(4,1,90,'2025-11-18 18:00:00'),  -- ALERTA
+(4,1,85,'2025-11-18 18:00:00'),  -- ALERTA
 
 (4,1,55,'2025-11-19 10:00:00'),
 (4,1,68,'2025-11-19 14:00:00'),
-(4,1,88,'2025-11-19 18:00:00'),  -- ALERTA
+(4,1,86,'2025-03-19 18:00:00'),  -- ALERTA
 
 (4,1,60,'2025-11-20 10:00:00'),
 (4,1,82,'2025-11-20 14:00:00'),
-(4,1,92,'2025-11-20 18:00:00'),  -- ALERTA
+(4,1,84,'2025-10-20 18:00:00'),  -- ALERTA
 
 (4,1,70,'2025-11-21 10:00:00'),
 (4,1,84,'2025-11-21 14:00:00'),
-(4,1,93,'2025-11-21 18:00:00'); -- ALERTA
+(4,1,83,'2025-11-26 18:00:00'); -- ALERTA
 
 
 
@@ -252,15 +255,15 @@ INSERT INTO leitura (idComponente, idMaquina, dado, dthCaptura) VALUES
 
 (2,1,80,'2025-11-19 10:10:00'),
 (2,1,83,'2025-11-19 14:10:00'),
-(2,1,91,'2025-11-19 18:10:00'), -- ALERTA
+(2,1,91,'2025-11-26 18:10:00'), -- ALERTA
 
 (2,1,84,'2025-11-20 10:10:00'),
 (2,1,81,'2025-11-20 14:10:00'),
-(2,1,90,'2025-11-20 18:10:00'), -- ALERTA
+(2,1,90,'2025-11-27 18:10:00'), -- ALERTA
 
 (2,1,80,'2025-11-21 10:10:00'),
 (2,1,80,'2025-11-21 14:10:00'),
-(2,1,90,'2025-11-21 18:10:00'); -- ALERTA
+(2,1,90,'2025-10-21 18:10:00'); -- ALERTA
 
 
 INSERT INTO leitura (idComponente, idMaquina, dado, dthCaptura) VALUES
@@ -274,11 +277,11 @@ INSERT INTO leitura (idComponente, idMaquina, dado, dthCaptura) VALUES
 
 (3,1,81,'2025-11-20 11:00:00'),
 (3,1,82,'2025-11-20 15:00:00'),
-(3,1,99,'2025-11-20 19:00:00'), -- ALERTA
+(3,1,99,'2025-09-20 19:00:00'), -- ALERTA
 
 (3,1,82,'2025-11-21 11:00:00'),
 (3,1,80,'2025-11-21 15:00:00'),
-(3,1,91,'2025-11-21 19:00:00'); -- ALERTA
+(3,1,91,'2025-10-21 19:00:00'); -- ALERTA
 
 
 INSERT INTO rede (idMaquina, idComponente, download, upload, packetLoss, dthCaptura) VALUES
@@ -301,10 +304,10 @@ INSERT INTO rede (idMaquina, idComponente, download, upload, packetLoss, dthCapt
 
 INSERT INTO alerta (idLeitura, idComponente, idMaquina, idParametro, descricao) VALUES
 -- CPU
-(3,4,1,1,'Critico'),
-(6,4,1,1,'Critico'),
-(9,4,1,1,'Critico'),
-(12,4,1,1,'Critico'),
+(3,4,1,1,'Anormal'),
+(6,4,1,1,'Anormal'),
+(9,4,1,1,'Anormal'),
+(12,4,1,1,'Anormal'),
 
 -- MEMORIA
 (15,2,1,2,'Critico'),
@@ -807,8 +810,79 @@ UPDATE empresa
 SET statusEmpresa = 1
 WHERE tokenEmpresa = 2016;
 
+INSERT INTO maquina (macAddress, ip, hostname, sistemaOperacional, dthRegistro) VALUES 
+('AA:BB:CC:DD:EE:01', '192.168.0.20', 'Servidor Pecas', 'Ubuntu', NOW());
+
+INSERT INTO setorMaquina (idSetor, tokenEmpresa, idMaquina, status, responsavel, dthVinculacao) VALUES 
+(1, 1001, 3, 'Ativa', 'Marcos', NOW());
+
+-- COMPONENTES
+INSERT INTO componente (idMaquina, tipoComponente, unidadeMedida) VALUES 
+(3, 'REDE', '%'),
+(3, 'RAM', '%'),
+(3, 'DISCO', '%'),
+(3, 'CPU', '%');
+
+-- PARÂMETROS
+INSERT INTO parametro (idComponente, idMaquina, nivel, min, max) VALUES
+(5, 3, 'CPU', 0, 85),
+(6, 3, 'RAM', 0, 85),
+(7, 3, 'DISCO', 0, 85),
+(8, 3, 'REDE', 0, 2.5);
+
+-- LEITURAS CPU
+INSERT INTO leitura (idComponente, idMaquina, dado, dthCaptura) VALUES
+(8,3,60,'2025-11-18 10:00:00'),
+(8,3,70,'2025-11-18 14:00:00'),
+(8,3,92,'2025-11-18 18:00:00'), -- ALERTA
+
+(8,3,63,'2025-11-19 10:00:00'),
+(8,3,74,'2025-11-19 14:00:00'),
+(8,3,88,'2025-11-19 18:00:00'); -- ALERTA
+
+-- LEITURAS RAM
+INSERT INTO leitura (idComponente, idMaquina, dado, dthCaptura) VALUES
+(6,3,78,'2025-11-18 10:10:00'),
+(6,3,82,'2025-11-18 14:10:00'),
+(6,3,90,'2025-11-18 18:10:00'), -- ALERTA
+(6,3,81,'2025-11-19 10:10:00'),
+(6,3,81,'2025-11-19 14:10:00'),
+(6,3,89,'2025-11-19 18:10:00'); -- ALERTA
+
+-- LEITURAS DISCO
+INSERT INTO leitura (idComponente, idMaquina, dado, dthCaptura) VALUES
+(7,3,72,'2025-11-18 11:00:00'),
+(7,3,79,'2025-11-18 15:00:00'),
+(7,3,95,'2025-11-18 19:00:00'), -- ALERTA
+(7,3,71,'2025-11-19 11:00:00'),
+(7,3,83,'2025-11-19 15:00:00'),
+(7,3,94,'2025-11-19 19:00:00'); -- ALERTA
+select * from leitura;
+-- LEITURAS REDE
+INSERT INTO rede (idMaquina, idComponente, download, upload, packetLoss, dthCaptura) VALUES
+(3,5,115,18,0.8,'2025-11-18 12:00:00'),
+(3,5,110,17,1.0,'2025-11-18 16:00:00'),
+(3,5,108,16,3.2,'2025-11-18 20:00:00'), -- ALERTA
+(3,5,120,19,0.7,'2025-11-19 12:00:00'),
+(3,5,118,18,1.4,'2025-11-19 16:00:00'),
+(3,5,112,17,3.8,'2025-11-19 20:00:00'); -- ALERTA
+
+-- ALERTAS
+INSERT INTO alerta (idLeitura, idComponente, idMaquina, idParametro, descricao) VALUES
+(39,8,3,5,'Critico'),
+(42,8,3,5,'Critico'),
+
+(45,6,3,6,'Critico'),
+(48,6,3,6,'Critico'),
+
+(51,7,3,7,'Anormal'),
+(54,7,3,7,'Anormal');
+
 SET time_zone = 'America/Sao_Paulo';
 SET GLOBAL time_zone = 'America/Sao_Paulo';
 
 SELECT @@global.time_zone, @@session.time_zone;
 SELECT NOW(), CURRENT_TIMESTAMP;
+
+
+
